@@ -34,12 +34,12 @@ public class CircuitDesignerSimon extends Application{
         Label resultsLabel = new Label("Resultado");
         Label menu = new Label("Menu");
         
+        
         //LAYOUTS
         HBox topMenu = new HBox(10);
         topMenu.getChildren().addAll(menu);
-        
         VBox rightMenu = new VBox(10);
-        rightMenu.getChildren().addAll(tablaCompuertas, andLabel);
+        rightMenu.getChildren().addAll(tablaCompuertas, andLabel, new And(0,5).getShape());
         
         VBox leftMenu = new VBox(10);
         leftMenu.getChildren().addAll(resultsLabel);
