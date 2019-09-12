@@ -3,6 +3,8 @@ package circuit.designer.simon;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,14 +41,14 @@ public class CircuitDesignerSimon extends Application{
         HBox topMenu = new HBox(10);
         topMenu.getChildren().addAll(menu);
         VBox rightMenu = new VBox(10);
-        rightMenu.getChildren().addAll(tablaCompuertas, andLabel, new And(0,5).getShape());
+        rightMenu.getChildren().addAll(tablaCompuertas, andLabel, new And(50,60).getFigure());
         
         VBox leftMenu = new VBox(10);
         leftMenu.getChildren().addAll(resultsLabel);
         
         //Zona de ensamble
         Pane ensambleZone = new Pane();
-        ensambleZone.getChildren().addAll(areaEnsamble);
+        ensambleZone.getChildren().addAll(areaEnsamble, new And(120,120).getFigure());
         
         //Layout Principal
         BorderPane mainLayout = new BorderPane();
