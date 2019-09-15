@@ -36,7 +36,9 @@ public class CircuitDesignerSimon extends Application{
         Label areaEnsamble = new Label("Zona de Ensamble");
         Label resultsLabel = new Label("Resultado");
         Label menu = new Label("Menu");
-        And and = new And(120,120);
+        
+        
+        
         
         //LAYOUTS
         HBox topMenu = new HBox(10);
@@ -48,27 +50,20 @@ public class CircuitDesignerSimon extends Application{
         leftMenu.getChildren().addAll(resultsLabel);
         
         //Zona de ensamble
-        Pane ensambleZone = new Pane();
+        Pane target = new Pane();
         
-        ensambleZone.getChildren().addAll(areaEnsamble, and.getFigure());
-        Pane target = ensambleZone;
+        CircuitList bb = new CircuitList(target);
+        bb.addLast("AND", 200, 200);
+        
         
         //Layout Principal
         BorderPane mainLayout = new BorderPane();
         mainLayout.setTop(topMenu);
         mainLayout.setRight(rightMenu);
-        mainLayout.setCenter(ensambleZone);
+        mainLayout.setCenter(target);
         mainLayout.setLeft(leftMenu);
         
         mainScene = new Scene(mainLayout, 620, 480);
-        
-        //EVENTOS DE ARRASTRE DE COMPUERTAS
-        and.getFigure().setOnDragDetected(event -> MoveGate.MouseControl(and, target, event));
-        target.setOnDragOver(event -> MoveGate.DragControl(and, target, event));
-        target.setOnDragEntered(event -> MoveGate.DragControl(and, target, event));
-        target.setOnDragExited(event -> MoveGate.DragControl(and, target, event));
-        target.setOnDragDropped(event -> MoveGate.DragControl(and, target, event));
-        and.getFigure().setOnDragDone(event -> MoveGate.DragControl(and, target, event));
         
         primaryStage.setScene(mainScene);
         primaryStage.show();

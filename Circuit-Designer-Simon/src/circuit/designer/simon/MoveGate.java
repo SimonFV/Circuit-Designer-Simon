@@ -16,15 +16,22 @@ import javafx.scene.layout.Pane;
 
 public class MoveGate {
     
-    public static void MouseControl(And source, Pane target, MouseEvent event){
-        Dragboard db = source.getFigure().startDragAndDrop(TransferMode.ANY);
+    public static void MouseControl(Gate source, Pane target, MouseEvent event){
+        Dragboard db = source.getFigure().startDragAndDrop(TransferMode.MOVE);
         ClipboardContent content = new ClipboardContent();
-        content.putString("asd");
+        content.putString(event.getSource().toString());
         db.setContent(content);
+        System.out.println(event.getSource());
+        
+        target.setOnDragOver(e -> DragControl(source, target, e));
+        target.setOnDragEntered(e -> DragControl(source, target, e));
+        target.setOnDragExited(e -> DragControl(source, target, e));
+        target.setOnDragDropped(e -> DragControl(source, target, e));
+        source.getFigure().setOnDragDone(e -> DragControl(source, target, e));
         event.consume(); 
     }
     
-    public static void DragControl (And source, Pane target, DragEvent event){
+    public static void DragControl (Gate source, Pane target, DragEvent event){
         if (event.getEventType()==DRAG_OVER && 
                 event.getGestureSource() != target && 
                 event.getDragboard().hasString()) {

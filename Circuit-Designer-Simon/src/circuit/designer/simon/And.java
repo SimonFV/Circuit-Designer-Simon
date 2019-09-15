@@ -6,26 +6,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.Line;
 
-public class And extends Gate{
+public final class And extends Gate{
     private static Line lineIn1, lineIn2, lineIn3, lineOut;
     private static CubicCurve curve1;
-    private Group g;
-    
-    //Nodo
-    And next;
-    String ID;
     
     //Constructor
-    public And(int x, int y) {
+    public And(double x, double y) {
         super(x, y);
+        this.ID = 0;
+        this.Out = new Point();
+        this.InTop = new Point();
+        this.InBot = new Point();
+        constructFigure();
         
-        this.ID = "AND";
-        this.next = null;
-        
-         g = new Group();
-         constructFigure();
     }
     
+    
+    @Override
     public void constructFigure(){
         lineIn1 = new Line(xStart, yStart, xStart+20, yStart);
         lineIn2 = new Line(xStart, yStart+20, xStart+20, yStart+20);
@@ -43,6 +40,7 @@ public class And extends Gate{
         g.getChildren().addAll(lineIn1, lineIn2, lineIn3, lineOut, curve1);
     }
     
+    @Override
     public void moveFigure(){
         lineIn1.setStartX(xStart);
         lineIn1.setStartY(yStart);
@@ -70,10 +68,7 @@ public class And extends Gate{
         curve1.setEndY(yStart+30);
     }
     
-    public Group getFigure(){
-        return g;
-    }
-    
+    @Override
     public Group newPosition(double newX, double newY){
         Gate.setxStart(newX);
         Gate.setyStart(newY);

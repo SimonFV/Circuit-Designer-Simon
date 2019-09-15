@@ -1,47 +1,64 @@
 
 package circuit.designer.simon;
 
+import javafx.scene.layout.Pane;
+
 public class CircuitList{
-    private And first;
-    private And last;
+    private Gate last;
     private int size;
+    Pane target;
     
-    public CircuitList(){
-        this.first = null;
+    public CircuitList(Pane target){
+        this.target = target;
+        
+        this.last = null;
         this.size = 0;
     }
     
-    public void addFirst(int x, int y){
-        if(this.first == null){
-            this.first = new And(x,y);
+    public void addLast(String type, double x, double y){
+        //Si la lista esta vacia
+        if(this.last == null){
+            if("AND".equals(type)){
+                System.out.println("Primer And");
+                this.last = new And(x,y);
+            }
+        //Si la lista ya contine algo
         }else{
-            And n = new And(x,y);
-            this.first = n;
+            if("AND".equals(type)){
+                System.out.println("And añadido");
+                Gate n = new And(x,y);
+                this.last.next = n;
+                n.prev = this.last;
+                this.last = n;
+            }
         }
-        this.size += 1;
-    }
-    
-    public void addLast(int x, int y){
-        if(this.last==null){
-            this.last = new And(x,y);
+        if("NOT".equals(type)){
+            //NOT
         }else{
-            And m = new And(x,y);
-            this.last.next = null;
-            this.last = m;
+            this.last.InTop.prev = this.last;
+            this.last.InBot.prev = this.last;
+            this.last.Out.prev = this.last;
         }
+        target.getChildren().add(this.last.getFigure());
+        this.last.ID = size+1;
         this.size += 1;
+        
+        //EVENTOS DE ARRASTRE DE COMPUERTAS
+        System.out.println(this.last.ID);
+        this.last.getFigure().setOnDragDetected(event -> MoveGate.MouseControl(this.last, target, event));
+        
     }
     
     public int getSize(){
         return size;
     }
     
-    public String getDato(int posicion){
-        String D;
+    public int getID(int posicion){
+        int D;
         if(posicion>=this.size){
-            return "-1";
+            return -1;
         }else{
-            And temp = this.first;
+            Gate temp = this.last;
             for(int i=1; i<=posicion; i++){
                 temp=temp.next;
             }
@@ -49,4 +66,9 @@ public class CircuitList{
             return D;
         }
     }
+
+    public Gate getLast() {
+        return last;
+    }
+    
 }
