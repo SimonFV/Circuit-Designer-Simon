@@ -1,8 +1,6 @@
 
 package circuit.designer.simon;
 
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public class CircuitList{
@@ -42,22 +40,11 @@ public class CircuitList{
             this.last.Out.prev = this.last;
         }
         
-        
-        //this.last.getFigure().setOnMousePressed(e->MoveGate.MouseControl(e,this.last));
-        //this.last.getFigure().setOnMouseReleased(e->MoveGate.MouseControl(e,this.last));
-        //this.last.getFigure().setOnMouseDragged(e->MoveGate.MouseControl(e,this.last));
-        //this.last.getFigure().setOnMouseEntered(e->MoveGate.MouseControl(e,this.last));
-        
-        //target.setOnDragOver(e->MoveGate.DragControl(e,this.last,target));
-        //target.setOnDragEntered(e->MoveGate.DragControl(e,this.last,target));
-        //target.setOnDragExited(e->MoveGate.DragControl(e,this.last,target));
-        //target.setOnDragDropped(e->MoveGate.DragControl(e,this.last,target));
-        
         target.getChildren().add(this.last.getFigure());
         this.last.ID = size+1;
         this.size += 1;
         
-        //EVENTOS DE ARRASTRE DE COMPUERTAS
+        
         
     }
     

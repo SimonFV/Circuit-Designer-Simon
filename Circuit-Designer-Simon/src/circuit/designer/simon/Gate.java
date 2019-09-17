@@ -3,8 +3,6 @@ package circuit.designer.simon;
 
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-
 
 abstract class Gate {
     
@@ -32,13 +30,6 @@ abstract class Gate {
         this.prev = null;
         constructFigure();
         
-        
-        
-        //g.setOnDragDetected(e->MoveGate.MouseControl(e,this));
-        //target.setOnDragOver(e->MoveGate.DragControl(e,this,target));
-        //target.setOnDragEntered(e->MoveGate.DragControl(e,this,target));
-        //target.setOnDragExited(e->MoveGate.DragControl(e,this,target));
-        //target.setOnDragDropped(e->MoveGate.DragControl(e,this,target));
     }
     
     public double conextion(){
