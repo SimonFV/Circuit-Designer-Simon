@@ -1,12 +1,14 @@
 
 package circuit.designer.simon;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public class CircuitList{
     private Gate last;
     private int size;
-    Pane target;
+    private Pane target;
     
     public CircuitList(Pane target){
         this.target = target;
@@ -20,13 +22,13 @@ public class CircuitList{
         if(this.last == null){
             if("AND".equals(type)){
                 System.out.println("Primer And");
-                this.last = new And(x,y);
+                this.last = new And(target, x,y);
             }
         //Si la lista ya contine algo
         }else{
             if("AND".equals(type)){
                 System.out.println("And añadido");
-                Gate n = new And(x,y);
+                Gate n = new And(target, x,y);
                 this.last.next = n;
                 n.prev = this.last;
                 this.last = n;
@@ -39,13 +41,23 @@ public class CircuitList{
             this.last.InBot.prev = this.last;
             this.last.Out.prev = this.last;
         }
+        
+        
+        //this.last.getFigure().setOnMousePressed(e->MoveGate.MouseControl(e,this.last));
+        //this.last.getFigure().setOnMouseReleased(e->MoveGate.MouseControl(e,this.last));
+        //this.last.getFigure().setOnMouseDragged(e->MoveGate.MouseControl(e,this.last));
+        //this.last.getFigure().setOnMouseEntered(e->MoveGate.MouseControl(e,this.last));
+        
+        //target.setOnDragOver(e->MoveGate.DragControl(e,this.last,target));
+        //target.setOnDragEntered(e->MoveGate.DragControl(e,this.last,target));
+        //target.setOnDragExited(e->MoveGate.DragControl(e,this.last,target));
+        //target.setOnDragDropped(e->MoveGate.DragControl(e,this.last,target));
+        
         target.getChildren().add(this.last.getFigure());
         this.last.ID = size+1;
         this.size += 1;
         
         //EVENTOS DE ARRASTRE DE COMPUERTAS
-        System.out.println(this.last.ID);
-        this.last.getFigure().setOnDragDetected(event -> MoveGate.MouseControl(this.last, target, event));
         
     }
     
@@ -70,5 +82,6 @@ public class CircuitList{
     public Gate getLast() {
         return last;
     }
+    
     
 }

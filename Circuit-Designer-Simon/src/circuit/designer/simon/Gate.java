@@ -2,23 +2,27 @@
 package circuit.designer.simon;
 
 import javafx.scene.Group;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 
-abstract public class Gate {
+abstract class Gate {
     
     protected static double xStart;
     protected static double yStart;
     protected Group g;
+    protected Pane target;
     
-    Gate next;
-    Gate prev;
-    Point InTop;
-    Point InBot;
-    Point Out;
-    int ID;
-    int code;
+    protected Gate next;
+    protected Gate prev;
+    protected Point InTop;
+    protected Point InBot;
+    protected Point Out;
+    protected int ID;
+    protected int code;
     
-    public Gate(double x, double y){
+    public Gate(Pane target, double x, double y){
+        this.target = target;
         xStart = x;
         yStart = y;
         g = new Group();
@@ -26,6 +30,15 @@ abstract public class Gate {
         this.ID = 0;
         this.next = null;
         this.prev = null;
+        constructFigure();
+        
+        
+        
+        //g.setOnDragDetected(e->MoveGate.MouseControl(e,this));
+        //target.setOnDragOver(e->MoveGate.DragControl(e,this,target));
+        //target.setOnDragEntered(e->MoveGate.DragControl(e,this,target));
+        //target.setOnDragExited(e->MoveGate.DragControl(e,this,target));
+        //target.setOnDragDropped(e->MoveGate.DragControl(e,this,target));
     }
     
     public double conextion(){
@@ -36,13 +49,13 @@ abstract public class Gate {
     public static double getxStart() {
         return xStart;
     }
-    public static void setxStart(double xStart) {
+    public void setxStart(double xStart) {
         Gate.xStart = xStart;
     }
-    public static double getyStart() {
+    public double getyStart() {
         return yStart;
     }
-    public static void setyStart(double yStart) {
+    public void setyStart(double yStart) {
         Gate.yStart = yStart;
     }
     public int getID() {
@@ -64,3 +77,4 @@ abstract public class Gate {
         return getFigure();
     }
 }
+    

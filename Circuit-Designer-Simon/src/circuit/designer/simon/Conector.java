@@ -1,12 +1,14 @@
 
 package circuit.designer.simon;
 
+import javafx.scene.layout.Pane;
+
 
 public class Conector extends Gate {
     private String state;
     
-    public Conector(double x, double y){
-        super(x, y);
+    public Conector(Pane target, double x, double y){
+        super(target, x, y);
     }
 
     public String getState() {
