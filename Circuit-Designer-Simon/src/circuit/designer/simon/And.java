@@ -10,9 +10,10 @@ class And extends Gate{
     public And(Pane target, double x, double y) {
         super(target, x, y);
         this.ID = 0;
-        this.Out = new Point();
-        this.InTop = new Point();
-        this.InBot = new Point();
+        this.Out = new Point(30,0);
+        this.InTop = new Point(-40,-10);
+        this.InBot = new Point(-40,10);
+        g.getChildren().addAll(Out.getFigure(),InTop.getFigure(),InBot.getFigure());
     }
     
     @Override
@@ -25,9 +26,11 @@ class And extends Gate{
     }
     @Override
     public void constructFigure(){
-        g = GateFigure.construct("AND");
+        
+        g.getChildren().add(GateFigure.construct("AND"));
         g.setLayoutX(xStart);
         g.setLayoutY(yStart);
+        
         
         //EVENTOS DE ARRASTRE DE COMPUERTA
         g.setOnMousePressed(e->MoveGate.MouseControl(e,this));
@@ -37,15 +40,19 @@ class And extends Gate{
     }
     
     @Override
-    public void moveFigure(){
+    public void moveFigure(double x, double y){
+        xStart=x;
+        yStart=y;
+        Out.setX(x+30);
+        Out.setY(y);
+        InTop.setX(x-40);
+        InTop.setY(y-10);
+        InBot.setX(x-40);
+        InBot.setY(y+10);
         g.setLayoutX(xStart);
         g.setLayoutY(yStart);
+        
     }
-    
-    @Override
-    public Group newPosition(double newX, double newY){
-        moveFigure();
-        return getFigure();
-    }
+   
    
 }

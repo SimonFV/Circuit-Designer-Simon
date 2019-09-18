@@ -20,6 +20,7 @@ abstract class Gate {
     protected int code;
     
     public Gate(Pane target, double x, double y){
+        
         this.target = target;
         xStart = x;
         yStart = y;
@@ -29,6 +30,7 @@ abstract class Gate {
         this.next = null;
         this.prev = null;
         constructFigure();
+        
         
     }
     
@@ -59,13 +61,10 @@ abstract class Gate {
     
     public void constructFigure(){}
     
-    public void moveFigure(){}
+    public void moveFigure(double x, double y){}
     
     public Group getFigure(){
         return g;
-    }
-    public Group newPosition(double newX, double newY){
-        return getFigure();
     }
 }
     

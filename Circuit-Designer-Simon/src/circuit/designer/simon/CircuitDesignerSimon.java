@@ -31,9 +31,7 @@ public class CircuitDesignerSimon extends Application{
         primaryStage.setTitle("Circuit Designer by Simon");
         
         
-        
-        
-        //Zona de ensamble
+        //Layouts principales
         Group root = new Group();
         Pane target = new Pane();
         target.setLayoutX(0);
@@ -78,8 +76,6 @@ public class CircuitDesignerSimon extends Application{
         menu.getChildren().addAll(andButton,orButton,notButton,nandButton,norButton,xorButton,xnorButton);
         
         
-        
-        
         root.getChildren().addAll(target, menu);
         target.setOnMouseClicked(e -> {
             if(e.getButton()==MouseButton.PRIMARY){
@@ -101,8 +97,24 @@ public class CircuitDesignerSimon extends Application{
     
     //AÑADE COMPUERTAS DEPENDIENDO DEL BOTON PRESIONADO
     public void addGate(MouseEvent e){
+        double newX = e.getSceneX();
+        double rX = newX%10;
+        double newY = e.getSceneY();
+        double rY = newY%10;
+            //Movimiento cuadriculado
+        if(newX%10<5){
+            newX=newX-rX;
+       }else{
+            newX=newX-rX+10;
+        }
+        if(newY%10<5){
+            newY=newY-rY;
+        }else{
+            newY=newY-rY+10;
+        }
         if("AND".equals(state)){
-            circuit.addLast("AND", e.getSceneX(), e.getSceneY());
+            
+            circuit.addLast("AND", newX, newY);
         }
     }
     

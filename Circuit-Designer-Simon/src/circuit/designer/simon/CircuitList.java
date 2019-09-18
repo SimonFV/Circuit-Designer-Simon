@@ -32,14 +32,14 @@ public class CircuitList{
                 this.last = n;
             }
         }
+        
         if("NOT".equals(type)){
             //NOT
         }else{
-            this.last.InTop.prev = this.last;
-            this.last.InBot.prev = this.last;
-            this.last.Out.prev = this.last;
+            this.last.InTop.setNext(this.last);
+            this.last.InBot.setNext(this.last);
         }
-        
+        this.last.constructFigure();
         target.getChildren().add(this.last.getFigure());
         this.last.ID = size+1;
         this.size += 1;
