@@ -14,7 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class CircuitDesignerSimon extends Application{
+public class CircuitDesignerMain extends Application{
     
     private String state; //permite agregar compuertas
     private Stage window;
@@ -38,22 +38,14 @@ public class CircuitDesignerSimon extends Application{
         target.setLayoutY(0);
         target.setMinWidth(500);
         target.setMinHeight(500);
-        
+        circuit = new CircuitList(target);
         
         
         //BOTONES y sus EVENTOS
         ToggleButton andButton = new ToggleButton();
         GridPane.setConstraints(andButton,0,0);
         andButton.setGraphic(GateFigure.construct("AND"));
-        andButton.setOnMouseClicked(e->{
-            if("AND".equals(state)){
-                andButton.setSelected(false);
-                state="disabled";
-            }else{
-                andButton.setSelected(true);
-                state="AND";
-            }
-        });
+        andButton.setOnMouseClicked(e->MoveGate.ButtonControl(andButton, e, "AND"));
         Button orButton = new Button("OR");
         GridPane.setConstraints(orButton,0,1);
         Button notButton = new Button("NOT");
@@ -75,47 +67,24 @@ public class CircuitDesignerSimon extends Application{
         
         menu.getChildren().addAll(andButton,orButton,notButton,nandButton,norButton,xorButton,xnorButton);
         
-        
         root.getChildren().addAll(target, menu);
+        
         target.setOnMouseClicked(e -> {
             if(e.getButton()==MouseButton.PRIMARY){
-                addGate(e);
+                MoveGate.PaneControl(circuit, target, mainScene, e);
                 }});
-        circuit = new CircuitList(target);
         
         
         mainScene = new Scene(root, 620, 480);
         mainScene.setOnMouseClicked(e -> {
             if(e.getButton()==MouseButton.SECONDARY){
-                state="disabled";
-                andButton.setSelected(false);
-                }});
+                if(andButton.isSelected()){
+                    MoveGate.ButtonControl(andButton, e, "AND");
+                }
+        }});
         
         primaryStage.setScene(mainScene);
         primaryStage.show();
-    }
-    
-    //AÑADE COMPUERTAS DEPENDIENDO DEL BOTON PRESIONADO
-    public void addGate(MouseEvent e){
-        double newX = e.getSceneX();
-        double rX = newX%10;
-        double newY = e.getSceneY();
-        double rY = newY%10;
-            //Movimiento cuadriculado
-        if(newX%10<5){
-            newX=newX-rX;
-       }else{
-            newX=newX-rX+10;
-        }
-        if(newY%10<5){
-            newY=newY-rY;
-        }else{
-            newY=newY-rY+10;
-        }
-        if("AND".equals(state)){
-            
-            circuit.addLast("AND", newX, newY);
-        }
     }
     
 }

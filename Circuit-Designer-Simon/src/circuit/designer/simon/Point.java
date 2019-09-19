@@ -2,68 +2,39 @@
 package circuit.designer.simon;
 
 import javafx.scene.Group;
+import javafx.scene.layout.Pane;
 
-public class Point{
+public class Point extends Gate{
     
-    private boolean conected;
-    private Gate prev;
-    private Gate next;
-    private double x;
-    private double y;
-    private Group g;
-    
-    
-    public Point(double x, double y){
-        this.x = x;
-        this.y = y;
-        this.prev = null;
-        this.next = null;
-        this.conected = false;
-        constructFigure();
+    public Point(Pane target, double x, double y){
+        super(target, x, y);
     }
     
+    @Override
     public void constructFigure(){
-        g = GateFigure.construct("POINT");
-        g.setLayoutX(x);
-        g.setLayoutY(y);
+        this.g = GateFigure.construct("POINT");
+        this.g.setLayoutX(this.xStart);
+        this.g.setLayoutY(this.yStart);
         
         //EVENTOS DE POINT
-        g.setOnMouseClicked(e->MoveGate.PointControl(e, this));
+        this.g.setOnMouseClicked(e->MoveGate.PointControl(e, this));
+        
+        if(this.prev != null){
+            this.g.setOnMousePressed(e->MoveGate.MouseControl(e,this));
+            this.g.setOnMouseReleased(e->MoveGate.MouseControl(e,this));
+            this.g.setOnMouseDragged(e->MoveGate.MouseControl(e,this));
+            this.g.setOnMouseEntered(e->MoveGate.MouseControl(e,this));
+        }
     }
     
-    public Group getFigure(){
-        return g;
+    @Override
+    public void moveFigure(double x, double y){
+        this.xStart=x;
+        this.yStart=y;
+        this.g.setLayoutX(this.xStart);
+        this.g.setLayoutY(this.yStart);
+        
     }
     
-    public boolean isConected() {
-        return conected;
-    }
-    public void setConected(boolean conected) {
-        this.conected = conected;
-    }
-    public Gate getPrev() {
-        return prev;
-    }
-    public void setPrev(Gate prev) {
-        this.prev = prev;
-    }
-    public Gate getNext() {
-        return next;
-    }
-    public void setNext(Gate next) {
-        this.next = next;
-    }
-    public double getX() {
-        return x;
-    }
-    public void setX(double x) {
-        this.x = x;
-    }
-    public double getY() {
-        return y;
-    }
-    public void setY(double y) {
-        this.y = y;
-    }
     
 }

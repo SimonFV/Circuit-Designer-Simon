@@ -27,6 +27,7 @@ public class GateFigure {
             g.getChildren().addAll(lineIn1, lineIn2, lineIn3, lineOut, curve1);
         }if("POINT".equals(type)){
             Circle point = new Circle(4);
+            point.setFill(Color.GREEN);
             g.getChildren().add(point);
         }
         return g;

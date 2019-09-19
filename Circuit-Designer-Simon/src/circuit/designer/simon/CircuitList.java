@@ -19,32 +19,30 @@ public class CircuitList{
         //Si la lista esta vacia
         if(this.last == null){
             if("AND".equals(type)){
-                System.out.println("Primer And");
                 this.last = new And(target, x,y);
+            }else if("POINT".equals(type)){
+                this.last = new Point(target, x,y);
             }
-        //Si la lista ya contine algo
+        //Si la lista contine algo
         }else{
             if("AND".equals(type)){
-                System.out.println("And añadido");
                 Gate n = new And(target, x,y);
+                this.last.next = n;
+                n.prev = this.last;
+                this.last = n;
+            }else if("POINT".equals(type)){
+                Gate n = new Point(target, x,y);
                 this.last.next = n;
                 n.prev = this.last;
                 this.last = n;
             }
         }
         
-        if("NOT".equals(type)){
-            //NOT
-        }else{
-            this.last.InTop.setNext(this.last);
-            this.last.InBot.setNext(this.last);
-        }
+        //Crea y agrega la figura al panel
         this.last.constructFigure();
         target.getChildren().add(this.last.getFigure());
-        this.last.ID = size+1;
+        this.last.code = size+1;
         this.size += 1;
-        
-        
         
     }
     
@@ -52,7 +50,7 @@ public class CircuitList{
         return size;
     }
     
-    public int getID(int posicion){
+    public int getCode(int posicion){
         int D;
         if(posicion>=this.size){
             return -1;
@@ -61,7 +59,7 @@ public class CircuitList{
             for(int i=1; i<=posicion; i++){
                 temp=temp.next;
             }
-            D=temp.ID;
+            D=temp.code;
             return D;
         }
     }

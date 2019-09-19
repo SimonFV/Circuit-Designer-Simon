@@ -1,7 +1,6 @@
 
 package circuit.designer.simon;
 
-import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 
 class And extends Gate{
@@ -9,49 +8,57 @@ class And extends Gate{
     //Constructor
     public And(Pane target, double x, double y) {
         super(target, x, y);
-        this.ID = 0;
-        this.Out = new Point(30,0);
-        this.InTop = new Point(-40,-10);
-        this.InBot = new Point(-40,10);
-        g.getChildren().addAll(Out.getFigure(),InTop.getFigure(),InBot.getFigure());
+        this.state = "fOpen";
+        this.ID = "AND";
+        this.code = 0;
+        this.Out = new Point(target,30,0);
+        this.Out.constructFigure();
+        this.Out.state = "fOpen";
+        this.InTop = new Point(target,-40,-10);
+        this.InTop.constructFigure();
+        this.InTop.state = "bOpen";
+        this.InBot = new Point(target,-40,10);
+        this.InBot.constructFigure();
+        this.InBot.state = "bOpen";
+        
     }
     
     @Override
     public void setxStart(double xStart) {
-        Gate.xStart = xStart;
+        this.xStart = xStart;
     }
     @Override
     public void setyStart(double yStart) {
-        Gate.yStart = yStart;
+        this.yStart = yStart;
     }
     @Override
     public void constructFigure(){
         
-        g.getChildren().add(GateFigure.construct("AND"));
-        g.setLayoutX(xStart);
-        g.setLayoutY(yStart);
+        this.g.getChildren().add(GateFigure.construct("AND"));
+        this.g.setLayoutX(this.xStart);
+        this.g.setLayoutY(this.yStart);
+        this.g.getChildren().addAll(this.Out.getFigure(),this.InTop.getFigure(),this.InBot.getFigure());
         
-        
+        this.g.setOnMouseClicked(e->MoveGate.GateControl(e, this));
         //EVENTOS DE ARRASTRE DE COMPUERTA
-        g.setOnMousePressed(e->MoveGate.MouseControl(e,this));
-        g.setOnMouseReleased(e->MoveGate.MouseControl(e,this));
-        g.setOnMouseDragged(e->MoveGate.MouseControl(e,this));
-        g.setOnMouseEntered(e->MoveGate.MouseControl(e,this));
+        this.g.setOnMousePressed(e->MoveGate.MouseControl(e,this));
+        this.g.setOnMouseReleased(e->MoveGate.MouseControl(e,this));
+        this.g.setOnMouseDragged(e->MoveGate.MouseControl(e,this));
+        this.g.setOnMouseEntered(e->MoveGate.MouseControl(e,this));
     }
     
     @Override
     public void moveFigure(double x, double y){
-        xStart=x;
-        yStart=y;
-        Out.setX(x+30);
-        Out.setY(y);
-        InTop.setX(x-40);
-        InTop.setY(y-10);
-        InBot.setX(x-40);
-        InBot.setY(y+10);
-        g.setLayoutX(xStart);
-        g.setLayoutY(yStart);
-        
+        this.xStart=x;
+        this.yStart=y;
+        this.Out.setxStart(x+30);
+        this.Out.setyStart(y);
+        this.InTop.setxStart(x-40);
+        this.InTop.setyStart(y-10);
+        this.InBot.setxStart(x-40);
+        this.InBot.setyStart(y+10);
+        this.g.setLayoutX(this.xStart);
+        this.g.setLayoutY(this.yStart);
     }
    
    
