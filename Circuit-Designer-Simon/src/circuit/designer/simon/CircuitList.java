@@ -105,11 +105,13 @@ public class CircuitList{
                         cList.addLast(temp.InBot,temp.InBot.rFrom);
                     }
                 }
-                
                 temp = temp.prev;
             }
-            
         }
+    }
+    
+    public void refresh(){
+        cList.update();
     }
     
 }

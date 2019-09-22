@@ -23,7 +23,7 @@ public class MoveGate{
     private static Point tempPoint;
     
     
-    public static void MouseControl(MouseEvent event, Gate source){
+    public static void MouseControl(MouseEvent event, Gate source, CircuitList circuit){
         if("normal".equals(state)){
             if(event.getEventType()==MOUSE_PRESSED){
                 //source.getFigure().setCursor(Cursor.MOVE);
@@ -35,6 +35,7 @@ public class MoveGate{
                 //Mantenerse dentro del panel
                 if(newX < 500 || newX > 100 || newY > 0 || newY < 500) {
                     source.moveFigure(adjust(newX), adjust(newY));
+                    circuit.refresh();
                 }
             }else if(event.getEventType()==MOUSE_ENTERED){
                     //Brillar
@@ -94,7 +95,6 @@ public class MoveGate{
             state=s;
             Bstate=true;
         }
-        
     }
     
     //Movimiento ajustado

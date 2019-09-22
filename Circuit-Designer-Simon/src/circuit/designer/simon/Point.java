@@ -21,10 +21,10 @@ public class Point extends Gate{
         this.g.setOnMouseClicked(e->MoveGate.PointControl(e, this, this.circuit));
         
         if(this.prev != null){
-            this.g.setOnMousePressed(e->MoveGate.MouseControl(e,this));
-            this.g.setOnMouseReleased(e->MoveGate.MouseControl(e,this));
-            this.g.setOnMouseDragged(e->MoveGate.MouseControl(e,this));
-            this.g.setOnMouseEntered(e->MoveGate.MouseControl(e,this));
+            this.g.setOnMousePressed(e->MoveGate.MouseControl(e,this,circuit));
+            this.g.setOnMouseReleased(e->MoveGate.MouseControl(e,this,circuit));
+            this.g.setOnMouseDragged(e->MoveGate.MouseControl(e,this,circuit));
+            this.g.setOnMouseEntered(e->MoveGate.MouseControl(e,this,circuit));
         }
     }
     

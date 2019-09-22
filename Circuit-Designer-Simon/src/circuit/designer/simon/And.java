@@ -39,13 +39,13 @@ class And extends Gate{
         this.g.setLayoutY(this.yStart);
         this.g.getChildren().addAll(this.Out.getFigure(),this.InTop.getFigure(),this.InBot.getFigure());
         
-        this.g.setOnMouseClicked(e->MoveGate.GateControl(e, this, this.circuit));
+        this.g.setOnMouseClicked(e->MoveGate.GateControl(e,this,this.circuit));
         //EVENTOS DE ARRASTRE DE COMPUERTA
-        this.g.setOnMousePressed(e->MoveGate.MouseControl(e,this));
-        this.g.setOnMouseReleased(e->MoveGate.MouseControl(e,this));
-        this.g.setOnMouseDragged(e->MoveGate.MouseControl(e,this));
-        this.g.setOnMouseEntered(e->MoveGate.MouseControl(e,this));
-        this.g.setOnMouseExited(e->MoveGate.MouseControl(e,this));
+        this.g.setOnMousePressed(e->MoveGate.MouseControl(e,this,circuit));
+        this.g.setOnMouseReleased(e->MoveGate.MouseControl(e,this,circuit));
+        this.g.setOnMouseDragged(e->MoveGate.MouseControl(e,this,circuit));
+        this.g.setOnMouseEntered(e->MoveGate.MouseControl(e,this,circuit));
+        this.g.setOnMouseExited(e->MoveGate.MouseControl(e,this,circuit));
         this.Out.setxStart(this.xStart+30);
         this.Out.setyStart(this.yStart);
         this.InTop.setxStart(this.xStart-40);

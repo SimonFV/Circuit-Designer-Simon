@@ -1,8 +1,11 @@
 
 package circuit.designer.simon;
 
+import static java.lang.Math.abs;
+import java.util.Random;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 
@@ -15,12 +18,9 @@ public class Conector{
     protected Group g;
     
     public Conector(Gate from, Gate to, Pane target){
-        
+        this.from = from;
+        this.to = to;
         this.target = target;
-        this.xStart = from.getxStart();
-        this.yStart = from.getyStart();
-        this.xFinal = to.getxStart();
-        this.yFinal = to.getyStart();
         g = new Group();
         
         this.line1 = new Line(0,10,0,10);
@@ -31,6 +31,10 @@ public class Conector{
     }
     
     public void setFigure(){
+        this.xStart = from.getxStart();
+        this.yStart = from.getyStart();
+        this.xFinal = to.getxStart();
+        this.yFinal = to.getyStart();
         if(this.xStart<this.xFinal){
             this.line1.setStartX(this.xStart);
             this.line1.setStartY(this.yStart);
@@ -64,5 +68,22 @@ public class Conector{
     
     public Group getFigure(){
         return this.g;
+    }
+    
+    public void setColors(){
+        Random random = new Random();
+        int red = random.nextInt(250);
+        int green = random.nextInt(250);
+        int blue = random.nextInt(200);
+        if(abs(red-green)>60 || abs(red-blue)>60 || abs(blue-green)>60){
+            this.line1.setStrokeWidth(2);
+            this.line2.setStrokeWidth(2);
+            this.line3.setStrokeWidth(2);
+            this.line1.setStroke(Color.rgb(red, green, blue));
+            this.line2.setStroke(Color.rgb(red, green, blue));
+            this.line3.setStroke(Color.rgb(red, green, blue));
+        }else{
+            setColors();
+        }
     }
 }
