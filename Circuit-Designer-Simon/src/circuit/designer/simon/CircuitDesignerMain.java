@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 public class CircuitDesignerMain extends Application{
     
-    private String state; //permite agregar compuertas
     private Stage window;
     private Scene mainScene;
     private CircuitList circuit;

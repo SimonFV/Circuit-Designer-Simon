@@ -7,10 +7,11 @@ public class CircuitList{
     private Gate last;
     private int size;
     private Pane target;
+    private ConectorList cList;
     
     public CircuitList(Pane target){
+        cList = new ConectorList(target);
         this.target = target;
-        
         this.last = null;
         this.size = 0;
     }
@@ -19,21 +20,21 @@ public class CircuitList{
         //Si la lista esta vacia
         if(this.last == null){
             if("AND".equals(type)){
-                this.last = new And(target, x,y);
+                this.last = new And(target, x,y, this);
             }else if("POINT".equals(type)){
-                this.last = new Point(target, x,y);
+                this.last = new Point(target, x,y, this);
             }
         //Si la lista contine algo
         }else{
             if("AND".equals(type)){
-                Gate n = new And(target, x,y);
+                Gate n = new And(target, x,y, this);
                 this.last.next = n;
-                n.prev = this.last;
+                this.last.next.prev = this.last;
                 this.last = n;
             }else if("POINT".equals(type)){
-                Gate n = new Point(target, x,y);
+                Gate n = new Point(target, x,y, this);
                 this.last.next = n;
-                n.prev = this.last;
+                this.last.next.prev = this.last;
                 this.last = n;
             }
         }
@@ -42,8 +43,7 @@ public class CircuitList{
         this.last.constructFigure();
         target.getChildren().add(this.last.getFigure());
         this.last.code = size+1;
-        this.size += 1;
-        
+        this.size += 1; 
     }
     
     public int getSize(){
@@ -68,5 +68,48 @@ public class CircuitList{
         return last;
     }
     
+    public void makeConections(){
+        cList.resetConectors();
+        Gate temp = this.last;
+        while(true){
+            if(temp.prev == null){
+                if("POINT".equals(temp.ID)){
+                    //POINT
+                }else if("NOT".equals(temp.ID)){
+                    //NOT
+                }else{
+                    if(temp.Out.rFrom!=null){
+                        cList.addLast(temp.Out,temp.Out.rFrom);
+                    }
+                    if(temp.InTop.rFrom!=null){
+                        cList.addLast(temp.InTop,temp.InTop.rFrom);
+                    }
+                    if(temp.InBot.rFrom!=null){
+                        cList.addLast(temp.InBot,temp.InBot.rFrom);
+                    }
+                }
+                break;
+            }else{
+                if("POINT".equals(temp.ID)){
+                    //POINT
+                }else if("NOT".equals(temp.ID)){
+                    //NOT
+                }else{
+                    if(temp.Out.rFrom!=null){
+                        cList.addLast(temp.Out,temp.Out.rFrom);
+                    }
+                    if(temp.InTop.rFrom!=null){
+                        cList.addLast(temp.InTop,temp.InTop.rFrom);
+                    }
+                    if(temp.InBot.rFrom!=null){
+                        cList.addLast(temp.InBot,temp.InBot.rFrom);
+                    }
+                }
+                
+                temp = temp.prev;
+            }
+            
+        }
+    }
     
 }

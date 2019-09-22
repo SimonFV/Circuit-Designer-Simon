@@ -6,25 +6,18 @@ import javafx.scene.layout.Pane;
 
 abstract class Gate {
     
-    protected double xStart;
-    protected double yStart;
+    protected double xStart, yStart;
     protected Group g;
     protected Pane target;
-    
-    protected Gate next;
-    protected Gate prev;
-    protected Gate InTop;
-    protected Gate InBot;
-    protected Gate Out;
-    protected String ID;
-    protected int code;
-    protected String state; //Estados de los puntos: BackOpen, FrontOpen, FrontFinal, Closed
-    protected Gate rFrom;  //Recibe datos de...
-    protected int result;  
+    protected Gate next, prev, InTop, InBot, Out;
+    protected Point rFrom;
+    protected String ID, state; //Estados de los puntos: Active, BackOpen, FrontOpen, BackFinal, FrontFinal, Closed
+    protected int code,result;
     protected boolean selected;
+    protected CircuitList circuit;
     
-    public Gate(Pane target, double x, double y){
-        
+    public Gate(Pane target, double x, double y, CircuitList circuit){
+        this.circuit = circuit;
         this.target = target;
         xStart = x;
         yStart = y;
@@ -34,12 +27,8 @@ abstract class Gate {
         this.next = null;
         this.prev = null;
         this.rFrom = null;
-        
-        
-    }
-    
-    public double conextion(){
-        return xStart;
+        this.selected = false;
+        this.state = "Active";
     }
     
     //Getters & Setters
@@ -58,10 +47,6 @@ abstract class Gate {
     public String getID() {
         return ID;
     }
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-    
     
     public void constructFigure(){}
     
@@ -70,5 +55,14 @@ abstract class Gate {
     public Group getFigure(){
         return g;
     }
+    
+    public void Operate(){
+        //realiza la operacion segun la compuerta
+    }
+    
+    public int getResult(){
+        return result;
+    }
+    
 }
     

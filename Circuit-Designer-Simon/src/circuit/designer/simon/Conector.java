@@ -1,14 +1,68 @@
 
 package circuit.designer.simon;
 
+import javafx.scene.Group;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 
 
-public class Conector extends Gate {
+public class Conector{
+    protected Pane target;
+    protected Conector prev, next;
+    protected Gate from, to;
+    protected double xStart, yStart, xFinal, yFinal;
+    protected Line line1, line2, line3;
+    protected Group g;
     
-    public Conector(Pane target, double x, double y){
-        super(target, x, y);
+    public Conector(Gate from, Gate to, Pane target){
+        
+        this.target = target;
+        this.xStart = from.getxStart();
+        this.yStart = from.getyStart();
+        this.xFinal = to.getxStart();
+        this.yFinal = to.getyStart();
+        g = new Group();
+        
+        this.line1 = new Line(0,10,0,10);
+        this.line2 = new Line(0,10,0,5);
+        this.line3 = new Line(0,2,0,4);
+        this.g.getChildren().addAll(this.line1, this.line2, this.line3);
+        
     }
     
+    public void setFigure(){
+        if(this.xStart<this.xFinal){
+            this.line1.setStartX(this.xStart);
+            this.line1.setStartY(this.yStart);
+            this.line1.setEndX((this.xFinal+this.xStart)/2);
+            this.line1.setEndY(this.yStart);
+            this.line2.setStartX((this.xFinal+xStart)/2);
+            this.line2.setStartY(this.yStart);
+            this.line2.setEndX((this.xFinal+this.xStart)/2);
+            this.line2.setEndY(this.yFinal);
+            this.line3.setStartX((this.xFinal+this.xStart)/2);
+            this.line3.setStartY(this.yFinal);
+            this.line3.setEndX(this.xFinal);
+            this.line3.setEndY(this.yFinal);
+        }else if(this.xStart>this.xFinal){
+            this.line1.setStartX(this.xStart);
+            this.line1.setStartY(this.yStart);
+            this.line1.setEndX(this.xStart);
+            this.line1.setEndY((this.yStart+this.yFinal)/2);
+            this.line2.setStartX(xStart);
+            this.line2.setStartY((this.yStart+this.yFinal)/2);
+            this.line2.setEndX(this.xFinal);
+            this.line2.setEndY((this.yStart+this.yFinal)/2);
+            this.line3.setStartX(this.xFinal);
+            this.line3.setStartY((this.yStart+this.yFinal)/2);
+            this.line3.setEndX(this.xFinal);
+            this.line3.setEndY(this.yFinal);
+        }
+        
+        
+    }
     
+    public Group getFigure(){
+        return this.g;
+    }
 }

@@ -6,8 +6,9 @@ import javafx.scene.layout.Pane;
 
 public class Point extends Gate{
     
-    public Point(Pane target, double x, double y){
-        super(target, x, y);
+    public Point(Pane target, double x, double y, CircuitList circuit){
+        super(target, x, y, circuit);
+        this.ID = "POINT";
     }
     
     @Override
@@ -17,7 +18,7 @@ public class Point extends Gate{
         this.g.setLayoutY(this.yStart);
         
         //EVENTOS DE POINT
-        this.g.setOnMouseClicked(e->MoveGate.PointControl(e, this));
+        this.g.setOnMouseClicked(e->MoveGate.PointControl(e, this, this.circuit));
         
         if(this.prev != null){
             this.g.setOnMousePressed(e->MoveGate.MouseControl(e,this));
@@ -34,6 +35,13 @@ public class Point extends Gate{
         this.g.setLayoutX(this.xStart);
         this.g.setLayoutY(this.yStart);
         
+    }
+    
+    public void setrFrom(Point rFrom){
+        this.rFrom=rFrom;
+    }
+    public Gate getrFrom(){
+        return this.rFrom;
     }
     
     
