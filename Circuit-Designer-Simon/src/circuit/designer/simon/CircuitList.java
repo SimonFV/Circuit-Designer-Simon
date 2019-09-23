@@ -21,6 +21,9 @@ public class CircuitList{
         if(this.last == null){
             if("AND".equals(type)){
                 this.last = new And(target, x,y, this);
+                this.last.Out.parent = this.last;
+                this.last.InTop.parent = this.last;
+                this.last.InBot.parent = this.last;
             }else if("POINT".equals(type)){
                 this.last = new Point(target, x,y, this);
             }
@@ -28,6 +31,9 @@ public class CircuitList{
         }else{
             if("AND".equals(type)){
                 Gate n = new And(target, x,y, this);
+                this.last.Out.parent = this.last;
+                this.last.InTop.parent = this.last;
+                this.last.InBot.parent = this.last;
                 this.last.next = n;
                 this.last.next.prev = this.last;
                 this.last = n;
@@ -70,42 +76,56 @@ public class CircuitList{
     
     public void makeConections(){
         cList.resetConectors();
-        Gate temp = this.last;
-        while(true){
-            if(temp.prev == null){
-                if("POINT".equals(temp.ID)){
-                    //POINT
-                }else if("NOT".equals(temp.ID)){
-                    //NOT
+        if(this.last!=null){
+            Gate temp = this.last;
+            while(true){
+                if(temp.prev == null){
+                    if("POINT".equals(temp.ID)){
+                        //POINT
+                    }else if("NOT".equals(temp.ID)){
+                        //NOT
+                    }else{
+                        if(temp.Out.rFrom!=null){
+                            if(!"Closed".equals(temp.Out.rFrom.state)){
+                                cList.addLast(temp.Out,temp.Out.rFrom);
+                            }
+                        }
+                        if(temp.InTop.rFrom!=null){
+                            if(!"Closed".equals(temp.InTop.rFrom.state)){
+                                cList.addLast(temp.InTop,temp.InTop.rFrom);
+                            }
+                        }
+                        if(temp.InBot.rFrom!=null){
+                            if(!"Closed".equals(temp.InBot.rFrom.state)){
+                                cList.addLast(temp.InBot,temp.InBot.rFrom);
+                            }
+                        }
+                    }
+                    break;
                 }else{
-                    if(temp.Out.rFrom!=null){
-                        cList.addLast(temp.Out,temp.Out.rFrom);
+                    if("POINT".equals(temp.ID)){
+                        //POINT
+                    }else if("NOT".equals(temp.ID)){
+                        //NOT
+                    }else{
+                        if(temp.Out.rFrom!=null){
+                            if(!"Closed".equals(temp.Out.rFrom.state)){
+                                cList.addLast(temp.Out,temp.Out.rFrom);
+                            }
+                        }
+                        if(temp.InTop.rFrom!=null){
+                            if(!"Closed".equals(temp.InTop.rFrom.state)){
+                                cList.addLast(temp.InTop,temp.InTop.rFrom);
+                            }
+                        }
+                        if(temp.InBot.rFrom!=null){
+                            if(!"Closed".equals(temp.InBot.rFrom.state)){
+                                cList.addLast(temp.InBot,temp.InBot.rFrom);
+                            }
+                        }
                     }
-                    if(temp.InTop.rFrom!=null){
-                        cList.addLast(temp.InTop,temp.InTop.rFrom);
-                    }
-                    if(temp.InBot.rFrom!=null){
-                        cList.addLast(temp.InBot,temp.InBot.rFrom);
-                    }
+                    temp = temp.prev;
                 }
-                break;
-            }else{
-                if("POINT".equals(temp.ID)){
-                    //POINT
-                }else if("NOT".equals(temp.ID)){
-                    //NOT
-                }else{
-                    if(temp.Out.rFrom!=null){
-                        cList.addLast(temp.Out,temp.Out.rFrom);
-                    }
-                    if(temp.InTop.rFrom!=null){
-                        cList.addLast(temp.InTop,temp.InTop.rFrom);
-                    }
-                    if(temp.InBot.rFrom!=null){
-                        cList.addLast(temp.InBot,temp.InBot.rFrom);
-                    }
-                }
-                temp = temp.prev;
             }
         }
     }
@@ -114,4 +134,78 @@ public class CircuitList{
         cList.update();
     }
     
+    public void delete(){
+        System.out.println("deleting");
+        if(this.last!=null){
+            Gate temp = this.last;
+            while(true){
+                if(temp.prev==null){
+                    if(temp.selected){
+                        if(temp.next==null){
+                            target.getChildren().remove(temp.getFigure());
+                            if("NOT".equals(temp.ID)){
+                                //NOT
+                            }else if("POINT".equals(temp.ID)){
+                                //point
+                            }else{
+                                temp.Out.state="Closed";
+                                temp.InBot.state="Closed";
+                                temp.InTop.state="Closed";
+                            }
+                            this.last=null;
+                            temp=null;
+                        }else{
+                            target.getChildren().remove(temp.getFigure());
+                            if("NOT".equals(temp.ID)){
+                                //NOT
+                            }else if("POINT".equals(temp.ID)){
+                                //point
+                            }else{
+                                temp.Out.state="Closed";
+                                temp.InBot.state="Closed";
+                                temp.InTop.state="Closed";
+                            }
+                            temp.next.prev=null;
+                            temp.next=null;
+                            temp=null;
+                        }
+                    }
+                    System.out.println("done");
+                    break;
+                }else{
+                    if(temp.selected){
+                        if(temp.next==null){
+                            target.getChildren().remove(temp.getFigure());
+                            if("NOT".equals(temp.ID)){
+                                //NOT
+                            }else if("POINT".equals(temp.ID)){
+                                //point
+                            }else{
+                                temp.Out.state="Closed";
+                                temp.InBot.state="Closed";
+                                temp.InTop.state="Closed";
+                            }
+                            this.last.prev.next=null;
+                            this.last=this.last.prev;
+                        }else{
+                            target.getChildren().remove(temp.getFigure());
+                            if("NOT".equals(temp.ID)){
+                                //NOT
+                            }else if("POINT".equals(temp.ID)){
+                                //point
+                            }else{
+                                temp.Out.state="Closed";
+                                temp.InBot.state="Closed";
+                                temp.InTop.state="Closed";
+                            }
+                            temp.next.prev=temp.prev;
+                            temp.prev.next=temp.next;
+                        }
+                    }
+                    temp=temp.prev;
+                }
+            }
+            makeConections();
+        }
+    }
 }

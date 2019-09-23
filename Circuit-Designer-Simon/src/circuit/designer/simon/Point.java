@@ -37,12 +37,4 @@ public class Point extends Gate{
         
     }
     
-    public void setrFrom(Point rFrom){
-        this.rFrom=rFrom;
-    }
-    public Gate getrFrom(){
-        return this.rFrom;
-    }
-    
-    
 }

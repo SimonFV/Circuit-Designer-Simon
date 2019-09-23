@@ -7,11 +7,10 @@ import javafx.scene.layout.Pane;
 abstract class Gate {
     
     protected double xStart, yStart;
-    protected Group g;
+    protected Group g, gselected;
     protected Pane target;
-    protected Gate next, prev, InTop, InBot, Out;
-    protected Point rFrom;
-    protected String ID, state; //Estados de los puntos: Active, BackOpen, FrontOpen, BackFinal, FrontFinal, Closed
+    protected Gate next, prev, InTop, InBot, Out, rFrom, parent;
+    protected String ID, state; //Estados de los puntos: Active, BackOpen, FrontOpen, Start, End, Closed
     protected int code,result;
     protected boolean selected;
     protected CircuitList circuit;
@@ -22,11 +21,17 @@ abstract class Gate {
         xStart = x;
         yStart = y;
         g = new Group();
+        gselected = new Group();
         
         this.ID = "GATE";
         this.next = null;
         this.prev = null;
         this.rFrom = null;
+        this.InTop = null;
+        this.InBot = null;
+        this.Out = null;
+        this.parent = null;
+        
         this.selected = false;
         this.state = "Active";
     }
@@ -62,6 +67,22 @@ abstract class Gate {
     
     public int getResult(){
         return result;
+    }
+    
+    public void setrFrom(Gate rFrom){
+        this.rFrom=rFrom;
+    }
+    public Gate getrFrom(){
+        return this.rFrom;
+    }
+    
+    public void nowSelected(){
+        selected = true;
+        this.g.getChildren().add(gselected);
+    }
+    public void unSelected(){
+        selected = false;
+        this.g.getChildren().remove(gselected);
     }
     
 }

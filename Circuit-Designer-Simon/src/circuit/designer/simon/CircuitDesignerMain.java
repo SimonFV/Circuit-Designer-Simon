@@ -7,6 +7,7 @@ import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -41,10 +42,12 @@ public class CircuitDesignerMain extends Application{
         
         
         //BOTONES y sus EVENTOS
+        //AND
         ToggleButton andButton = new ToggleButton();
         GridPane.setConstraints(andButton,0,0);
         andButton.setGraphic(GateFigure.construct("AND"));
         andButton.setOnMouseClicked(e->MoveGate.ButtonControl(andButton, e, "AND"));
+        
         Button orButton = new Button("OR");
         GridPane.setConstraints(orButton,0,1);
         Button notButton = new Button("NOT");
@@ -57,6 +60,16 @@ public class CircuitDesignerMain extends Application{
         GridPane.setConstraints(xorButton,0,5);
         Button xnorButton = new Button("XNOR");
         GridPane.setConstraints(xnorButton,0,6);
+        //STARTPOINT
+        ToggleButton startButton = new ToggleButton();
+        GridPane.setConstraints(startButton,0,7);
+        startButton.setGraphic(GateFigure.construct("STARTPOINT"));
+        startButton.setOnMouseClicked(e->MoveGate.ButtonControl(startButton, e, "STARTPOINT"));
+        //ENDPOINT
+        ToggleButton endButton = new ToggleButton();
+        GridPane.setConstraints(endButton,0,8);
+        endButton.setGraphic(GateFigure.construct("ENDPOINT"));
+        endButton.setOnMouseClicked(e->MoveGate.ButtonControl(startButton, e, "ENDPOINT"));
         
         //MENU
         GridPane menu = new GridPane();
@@ -64,7 +77,8 @@ public class CircuitDesignerMain extends Application{
         menu.setMinHeight(60);
         menu.setVgap(5);
         
-        menu.getChildren().addAll(andButton,orButton,notButton,nandButton,norButton,xorButton,xnorButton);
+        menu.getChildren().addAll(andButton,orButton,notButton,
+                nandButton,norButton,xorButton,xnorButton, startButton, endButton);
         
         root.getChildren().addAll(target, menu);
         
@@ -80,7 +94,13 @@ public class CircuitDesignerMain extends Application{
                 if(andButton.isSelected()){
                     MoveGate.ButtonControl(andButton, e, "AND");
                 }
-        }});
+            }
+        });
+        mainScene.setOnKeyPressed(key->{
+            if(key.getCode()==KeyCode.DELETE){
+                circuit.delete();
+            }
+        });
         
         primaryStage.setScene(mainScene);
         primaryStage.show();

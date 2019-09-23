@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import static javafx.scene.input.MouseEvent.MOUSE_DRAGGED;
@@ -20,7 +21,7 @@ public class MoveGate{
     private static String state = "normal"; //Permite relizar solo ciertas acciones a la vez
     private static boolean Bstate;
     private static boolean conecting;
-    private static Point tempPoint;
+    private static Gate tempPoint;
     
     
     public static void MouseControl(MouseEvent event, Gate source, CircuitList circuit){
@@ -47,31 +48,40 @@ public class MoveGate{
         }
     }
     
-    public static void PointControl(MouseEvent event, Point source, CircuitList circuit){
+    public static void PointControl(MouseEvent event, Gate source, CircuitList circuit){
+        if(state.equals("normal")){
         if(conecting){
-            tempPoint.setrFrom(source);
-            circuit.makeConections();
-            System.out.println("Conecting Done");
-            conecting=false;
+            if(tempPoint.parent!=source.parent){
+                if(tempPoint.state=="fOpen"&&(source.state=="bOpen"||source.state=="End")){
+                    source.setrFrom(tempPoint);
+                    circuit.makeConections();
+                    System.out.println("Conecting Done");
+                    conecting=false;
+                }else if(tempPoint.state=="bOpen"&&(source.state=="fOpen"||source.state=="Start")){
+                    tempPoint.setrFrom(source);
+                    circuit.makeConections();
+                    System.out.println("Conecting Done");
+                    conecting=false;
+                }
+            }
         }else{
             tempPoint=source;
             System.out.println("Conecting Now");
             conecting=true;
         }
-        
+        }
     }
     
     public static void GateControl(MouseEvent event, Gate source, CircuitList circuit){
+        if(state.equals("normal")){
         if(event.getButton()==MouseButton.PRIMARY){
-            if("gateSelected".equals(state)){
-                //System.out.println("Gate deactivated");
-                //state = "normal";
+            if(source.selected==false){
+                source.nowSelected();
             }else{
-                //System.out.println("Gate selected");
-                //state = "gateSelected";
+                source.unSelected();
             }
         }
-        
+        }
     }
     
     public static void PaneControl(CircuitList circuit, Pane target, Scene mainScene, MouseEvent e){
@@ -95,6 +105,10 @@ public class MoveGate{
             state=s;
             Bstate=true;
         }
+    }
+    
+    public static void KeyControl(KeyEvent e){
+        
     }
     
     //Movimiento ajustado

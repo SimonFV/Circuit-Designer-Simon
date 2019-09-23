@@ -3,27 +3,24 @@ package circuit.designer.simon;
 
 import javafx.scene.layout.Pane;
 
-class And extends Gate{
+class StartPoint extends Gate{
     
     //Constructor
-    public And(Pane target, double x, double y, CircuitList circuit) {
+    public StartPoint(Pane target, double x, double y, CircuitList circuit) {
         super(target, x, y, circuit);
-        this.state = "Active";
-        this.ID = "AND";
+        this.state = "Start";
+        this.ID = "STARTPOINT";
         this.code = 0;
-        this.Out = new Point(target,30,0,circuit);
-        this.Out.constructFigure();
-        this.Out.state = "fOpen";
-        this.InTop = new Point(target,-40,-10,circuit);
-        this.InTop.constructFigure();
-        this.InTop.state = "bOpen";
-        this.InBot = new Point(target,-40,10,circuit);
-        this.InBot.constructFigure();
-        this.InBot.state = "bOpen";
-        gselected = GateFigure.construct("ANDSELECTED");
-        
     }
     
+    @Override
+    public void setxStart(double xStart) {
+        this.xStart = xStart;
+    }
+    @Override
+    public void setyStart(double yStart) {
+        this.yStart = yStart;
+    }
     @Override
     public void constructFigure(){
         
@@ -60,5 +57,6 @@ class And extends Gate{
         this.g.setLayoutX(this.xStart);
         this.g.setLayoutY(this.yStart);
     }
-    
+   
+   
 }

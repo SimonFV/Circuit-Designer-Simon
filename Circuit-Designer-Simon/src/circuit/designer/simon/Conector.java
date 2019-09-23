@@ -35,7 +35,7 @@ public class Conector{
         this.yStart = from.getyStart();
         this.xFinal = to.getxStart();
         this.yFinal = to.getyStart();
-        if(this.xStart<this.xFinal){
+        if(this.xStart>this.xFinal){
             this.line1.setStartX(this.xStart);
             this.line1.setStartY(this.yStart);
             this.line1.setEndX((this.xFinal+this.xStart)/2);
@@ -48,7 +48,7 @@ public class Conector{
             this.line3.setStartY(this.yFinal);
             this.line3.setEndX(this.xFinal);
             this.line3.setEndY(this.yFinal);
-        }else if(this.xStart>this.xFinal){
+        }else if(this.xStart<this.xFinal){
             this.line1.setStartX(this.xStart);
             this.line1.setStartY(this.yStart);
             this.line1.setEndX(this.xStart);
