@@ -65,8 +65,8 @@ class And extends Gate{
     
     @Override
     public int getResult(){
-        int in1 = this.InTop.rFrom.getResult();
-        int in2 = this.InTop.rFrom.getResult();
+        int in1 = this.InTop.getResult();
+        int in2 = this.InBot.getResult();
         this.result = in1*in2;
         return this.result;
     }

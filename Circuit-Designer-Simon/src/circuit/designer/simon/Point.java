@@ -40,18 +40,20 @@ public class Point extends Gate{
     
     @Override
     public int getResult(){
-        if(this.rFrom!=null){
-            if(this.prev==null){
-                if("fOpen".equals(this.state)){
-                    this.result = this.parent.getResult();
-                }else{
-                    this.result = this.rFrom.getResult();
-                }
-            }else{
+        if(this.prev==null){
+            if(this.rFrom!=null){
                 this.result = this.rFrom.getResult();
+            }else if("fOpen".equals(this.state)){
+                this.result = this.parent.getResult();
+            }else{
+                this.result = 0;
             }
         }else{
-            this.result = 0;
+            if(this.rFrom!=null){
+                this.result = this.rFrom.getResult();
+            }else{
+                this.result = 0;
+            }
         }
         return this.result;
     }

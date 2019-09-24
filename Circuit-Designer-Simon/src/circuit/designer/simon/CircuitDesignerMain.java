@@ -69,7 +69,12 @@ public class CircuitDesignerMain extends Application{
         ToggleButton endButton = new ToggleButton();
         GridPane.setConstraints(endButton,0,8);
         endButton.setGraphic(GateFigure.construct("ENDPOINT"));
-        endButton.setOnMouseClicked(e->MoveGate.ButtonControl(startButton, e, "ENDPOINT"));
+        endButton.setOnMouseClicked(e->MoveGate.ButtonControl(endButton, e, "ENDPOINT"));
+        //GENERATE
+        Button generateButton = new Button("GENERATE");
+        GridPane.setConstraints(generateButton,0,9);
+        //generateButton.setGraphic(GateFigure.construct("AND"));
+        generateButton.setOnMouseClicked(e->circuit.showResults());
         
         //MENU
         GridPane menu = new GridPane();
@@ -78,7 +83,7 @@ public class CircuitDesignerMain extends Application{
         menu.setVgap(5);
         
         menu.getChildren().addAll(andButton,orButton,notButton,
-                nandButton,norButton,xorButton,xnorButton, startButton, endButton);
+                nandButton,norButton,xorButton,xnorButton, startButton, endButton, generateButton);
         
         root.getChildren().addAll(target, menu);
         
@@ -95,6 +100,9 @@ public class CircuitDesignerMain extends Application{
                 }
                 if(startButton.isSelected()){
                     MoveGate.ButtonControl(startButton, e, "STARTPOINT");
+                }
+                if(endButton.isSelected()){
+                    MoveGate.ButtonControl(endButton, e, "ENDPOINT");
                 }
                 circuit.unSelectAll();
                 MoveGate.notConecting();

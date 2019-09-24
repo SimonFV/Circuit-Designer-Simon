@@ -59,6 +59,10 @@ public class GateFigure {
             Circle point = new Circle(5);
             point.setFill(Color.DARKCYAN);
             g.getChildren().add(point);
+        }else if("ENDPOINTSELECTED".equals(type)){
+            Circle point = new Circle(5);
+            point.setFill(Color.AQUA);
+            g.getChildren().add(point);
         }
         return g;
     }

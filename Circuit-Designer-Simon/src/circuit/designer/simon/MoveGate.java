@@ -34,6 +34,14 @@ public class MoveGate{
                         source.nowSelected();
                     }else if(source.selected==true && xFirst==newX && yFirst==newY){
                         source.unSelected();
+                        if(source.ID.equals("STARTPOINT")||source.ID.equals("ENDPOINT")){
+                            
+                        }
+                        if(tempPoint!=null){
+                            System.out.println("Conecting Canceled");
+                            conecting=false;
+                            tempPoint.unSelected();
+                        }  
                     }else if(source.selected==false){
                         source.nowSelected();
                     }
@@ -60,22 +68,23 @@ public class MoveGate{
         if(state.equals("normal")){
             if(conecting){
                 if(tempPoint.parent!=source.parent){
-                    if((tempPoint.state=="fOpen"&&(source.state=="bOpen"||source.state=="End"))||
-                            (tempPoint.state=="Start"&&(source.state=="bOpen"||source.state=="End"))){
+                    if(("fOpen".equals(tempPoint.state)||"Start".equals(tempPoint.state))&&
+                            ("bOpen".equals(source.state)||"End".equals(source.state))){
                         source.setrFrom(tempPoint);
                         circuit.makeConections();
                         System.out.println("Conecting Done");
                         conecting=false;
                         tempPoint.unSelected();
                         circuit.unSelectAll();
-                    }else if(tempPoint.state=="bOpen"&&(source.state=="fOpen"||source.state=="Start")){
+                    }else if(("bOpen".equals(tempPoint.state)||"End".equals(tempPoint.state))&&
+                            ("fOpen".equals(source.state)||"Start".equals(source.state))){
                         tempPoint.setrFrom(source);
                         circuit.makeConections();
                         System.out.println("Conecting Done");
                         conecting=false;
                         tempPoint.unSelected();
                         circuit.unSelectAll();
-                    }else if(tempPoint.state=="Closed"){
+                    }else if("Closed".equals(tempPoint.state)){
                         conecting=false;
                         System.out.println("Conecting Done");
                         tempPoint.unSelected();
@@ -87,6 +96,7 @@ public class MoveGate{
                 if(tempPoint.parent!=tempPoint){
                     tempPoint.nowSelected();
                 }
+                
                 System.out.println("Conecting Now");
                 conecting=true;
             }
@@ -102,6 +112,8 @@ public class MoveGate{
             circuit.addLast("POINT", adjust(newX), adjust(newY));
         }else if("STARTPOINT".equals(state)){
             circuit.addLast("STARTPOINT", adjust(newX), adjust(newY));
+        }else if("ENDPOINT".equals(state)){
+            circuit.addLast("ENDPOINT", adjust(newX), adjust(newY));
         }
     }
     
