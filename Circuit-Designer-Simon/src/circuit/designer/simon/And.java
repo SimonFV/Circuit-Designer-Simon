@@ -20,6 +20,9 @@ class And extends Gate{
         this.InBot = new Point(target,-40,10,circuit);
         this.InBot.constructFigure();
         this.InBot.state = "bOpen";
+        this.Out.parent = this;
+        this.InTop.parent = this;
+        this.InBot.parent = this;
         gselected = GateFigure.construct("ANDSELECTED");
         
     }
@@ -32,7 +35,6 @@ class And extends Gate{
         this.g.setLayoutY(this.yStart);
         this.g.getChildren().addAll(this.Out.getFigure(),this.InTop.getFigure(),this.InBot.getFigure());
         
-        this.g.setOnMouseClicked(e->MoveGate.GateControl(e,this,this.circuit));
         //EVENTOS DE ARRASTRE DE COMPUERTA
         this.g.setOnMousePressed(e->MoveGate.MouseControl(e,this,circuit));
         this.g.setOnMouseReleased(e->MoveGate.MouseControl(e,this,circuit));
@@ -59,6 +61,14 @@ class And extends Gate{
         this.InBot.setyStart(y+10);
         this.g.setLayoutX(this.xStart);
         this.g.setLayoutY(this.yStart);
+    }
+    
+    @Override
+    public int getResult(){
+        int in1 = this.InTop.rFrom.getResult();
+        int in2 = this.InTop.rFrom.getResult();
+        this.result = in1*in2;
+        return this.result;
     }
     
 }

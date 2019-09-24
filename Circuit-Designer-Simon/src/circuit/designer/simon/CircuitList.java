@@ -21,24 +21,25 @@ public class CircuitList{
         if(this.last == null){
             if("AND".equals(type)){
                 this.last = new And(target, x,y, this);
-                this.last.Out.parent = this.last;
-                this.last.InTop.parent = this.last;
-                this.last.InBot.parent = this.last;
             }else if("POINT".equals(type)){
                 this.last = new Point(target, x,y, this);
+            }else if("STARTPOINT".equals(type)){
+                this.last = new StartPoint(target, x,y, this);
             }
         //Si la lista contine algo
         }else{
             if("AND".equals(type)){
                 Gate n = new And(target, x,y, this);
-                this.last.Out.parent = this.last;
-                this.last.InTop.parent = this.last;
-                this.last.InBot.parent = this.last;
                 this.last.next = n;
                 this.last.next.prev = this.last;
                 this.last = n;
             }else if("POINT".equals(type)){
                 Gate n = new Point(target, x,y, this);
+                this.last.next = n;
+                this.last.next.prev = this.last;
+                this.last = n;
+            }else if("STARTPOINT".equals(type)){
+                Gate n = new StartPoint(target, x,y, this);
                 this.last.next = n;
                 this.last.next.prev = this.last;
                 this.last = n;
@@ -84,20 +85,28 @@ public class CircuitList{
                         //POINT
                     }else if("NOT".equals(temp.ID)){
                         //NOT
+                    }else if("STARTPOINT".equals(temp.ID)){
+                        //NOT
                     }else{
                         if(temp.Out.rFrom!=null){
                             if(!"Closed".equals(temp.Out.rFrom.state)){
                                 cList.addLast(temp.Out,temp.Out.rFrom);
+                            }else{
+                                temp.Out.rFrom=null;
                             }
                         }
                         if(temp.InTop.rFrom!=null){
                             if(!"Closed".equals(temp.InTop.rFrom.state)){
                                 cList.addLast(temp.InTop,temp.InTop.rFrom);
+                            }else{
+                                temp.Out.rFrom=null;
                             }
                         }
                         if(temp.InBot.rFrom!=null){
                             if(!"Closed".equals(temp.InBot.rFrom.state)){
                                 cList.addLast(temp.InBot,temp.InBot.rFrom);
+                            }else{
+                                temp.Out.rFrom=null;
                             }
                         }
                     }
@@ -107,20 +116,28 @@ public class CircuitList{
                         //POINT
                     }else if("NOT".equals(temp.ID)){
                         //NOT
+                    }else if("STARTPOINT".equals(temp.ID)){
+                        //NOT
                     }else{
                         if(temp.Out.rFrom!=null){
                             if(!"Closed".equals(temp.Out.rFrom.state)){
                                 cList.addLast(temp.Out,temp.Out.rFrom);
+                            }else{
+                                temp.Out.rFrom=null;
                             }
                         }
                         if(temp.InTop.rFrom!=null){
                             if(!"Closed".equals(temp.InTop.rFrom.state)){
                                 cList.addLast(temp.InTop,temp.InTop.rFrom);
+                            }else{
+                                temp.Out.rFrom=null;
                             }
                         }
                         if(temp.InBot.rFrom!=null){
                             if(!"Closed".equals(temp.InBot.rFrom.state)){
                                 cList.addLast(temp.InBot,temp.InBot.rFrom);
+                            }else{
+                                temp.Out.rFrom=null;
                             }
                         }
                     }
@@ -143,9 +160,12 @@ public class CircuitList{
                     if(temp.selected){
                         if(temp.next==null){
                             target.getChildren().remove(temp.getFigure());
+                            temp.state="Closed";
                             if("NOT".equals(temp.ID)){
                                 //NOT
                             }else if("POINT".equals(temp.ID)){
+                                //point
+                            }else if("STARTPOINT".equals(temp.ID)){
                                 //point
                             }else{
                                 temp.Out.state="Closed";
@@ -156,9 +176,12 @@ public class CircuitList{
                             temp=null;
                         }else{
                             target.getChildren().remove(temp.getFigure());
+                            temp.state="Closed";
                             if("NOT".equals(temp.ID)){
                                 //NOT
                             }else if("POINT".equals(temp.ID)){
+                                //point
+                            }else if("STARTPOINT".equals(temp.ID)){
                                 //point
                             }else{
                                 temp.Out.state="Closed";
@@ -176,9 +199,12 @@ public class CircuitList{
                     if(temp.selected){
                         if(temp.next==null){
                             target.getChildren().remove(temp.getFigure());
+                            temp.state="Closed";
                             if("NOT".equals(temp.ID)){
                                 //NOT
                             }else if("POINT".equals(temp.ID)){
+                                //point
+                            }else if("STARTPOINT".equals(temp.ID)){
                                 //point
                             }else{
                                 temp.Out.state="Closed";
@@ -189,9 +215,12 @@ public class CircuitList{
                             this.last=this.last.prev;
                         }else{
                             target.getChildren().remove(temp.getFigure());
+                            temp.state="Closed";
                             if("NOT".equals(temp.ID)){
                                 //NOT
                             }else if("POINT".equals(temp.ID)){
+                                //point
+                            }else if("STARTPOINT".equals(temp.ID)){
                                 //point
                             }else{
                                 temp.Out.state="Closed";

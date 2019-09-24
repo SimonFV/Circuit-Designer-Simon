@@ -43,13 +43,19 @@ public class GateFigure {
             Circle point = new Circle(4);
             point.setFill(Color.GREEN);
             g.getChildren().add(point);
-        }
-        else if("STARTPOINT".equals(type)){
+        }else if("POINTSELECTED".equals(type)){
+            Circle pointselected = new Circle(4);
+            pointselected.setFill(Color.AQUA);
+            g.getChildren().add(pointselected);
+        }else if("STARTPOINT".equals(type)){
             Circle point = new Circle(5);
             point.setFill(Color.BLUEVIOLET);
             g.getChildren().add(point);
-        }
-        else if("ENDPOINT".equals(type)){
+        }else if("STARTPOINTSELECTED".equals(type)){
+            Circle point = new Circle(5);
+            point.setFill(Color.AQUA);
+            g.getChildren().add(point);
+        }else if("ENDPOINT".equals(type)){
             Circle point = new Circle(5);
             point.setFill(Color.DARKCYAN);
             g.getChildren().add(point);

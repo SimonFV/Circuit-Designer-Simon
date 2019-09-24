@@ -18,10 +18,12 @@ abstract class Gate {
     public Gate(Pane target, double x, double y, CircuitList circuit){
         this.circuit = circuit;
         this.target = target;
-        xStart = x;
-        yStart = y;
-        g = new Group();
-        gselected = new Group();
+        this.xStart = x;
+        this.yStart = y;
+        this.result = 0;
+        
+        this.g = new Group();
+        this.gselected = new Group();
         
         this.ID = "GATE";
         this.next = null;
@@ -30,7 +32,7 @@ abstract class Gate {
         this.InTop = null;
         this.InBot = null;
         this.Out = null;
-        this.parent = null;
+        this.parent = this;
         
         this.selected = false;
         this.state = "Active";
@@ -38,19 +40,19 @@ abstract class Gate {
     
     //Getters & Setters
     public double getxStart() {
-        return xStart;
+        return this.xStart;
     }
     public void setxStart(double xStart) {
         this.xStart = xStart;
     }
     public double getyStart() {
-        return yStart;
+        return this.yStart;
     }
     public void setyStart(double yStart) {
         this.yStart = yStart;
     }
     public String getID() {
-        return ID;
+        return this.ID;
     }
     
     public void constructFigure(){}
@@ -58,15 +60,11 @@ abstract class Gate {
     public void moveFigure(double x, double y){}
     
     public Group getFigure(){
-        return g;
-    }
-    
-    public void Operate(){
-        //realiza la operacion segun la compuerta
+        return this.g;
     }
     
     public int getResult(){
-        return result;
+        return this.result;
     }
     
     public void setrFrom(Gate rFrom){
@@ -77,12 +75,12 @@ abstract class Gate {
     }
     
     public void nowSelected(){
-        selected = true;
-        this.g.getChildren().add(gselected);
+        this.selected = true;
+        this.g.getChildren().add(this.gselected);
     }
     public void unSelected(){
-        selected = false;
-        this.g.getChildren().remove(gselected);
+        this.selected = false;
+        this.g.getChildren().remove(this.gselected);
     }
     
 }

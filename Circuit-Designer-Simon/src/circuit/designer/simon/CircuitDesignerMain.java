@@ -87,14 +87,17 @@ public class CircuitDesignerMain extends Application{
                 MoveGate.PaneControl(circuit, target, mainScene, e);
                 }});
         
-        
         mainScene = new Scene(root, 620, 480);
         mainScene.setOnMouseClicked(e -> {
             if(e.getButton()==MouseButton.SECONDARY){
                 if(andButton.isSelected()){
                     MoveGate.ButtonControl(andButton, e, "AND");
                 }
+                if(startButton.isSelected()){
+                    MoveGate.ButtonControl(startButton, e, "STARTPOINT");
+                }
                 circuit.unSelectAll();
+                MoveGate.notConecting();
             }
         });
         mainScene.setOnKeyPressed(key->{

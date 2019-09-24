@@ -9,6 +9,7 @@ public class Point extends Gate{
     public Point(Pane target, double x, double y, CircuitList circuit){
         super(target, x, y, circuit);
         this.ID = "POINT";
+        gselected = GateFigure.construct("POINTSELECTED");
     }
     
     @Override
@@ -35,6 +36,24 @@ public class Point extends Gate{
         this.g.setLayoutX(this.xStart);
         this.g.setLayoutY(this.yStart);
         
+    }
+    
+    @Override
+    public int getResult(){
+        if(this.rFrom!=null){
+            if(this.prev==null){
+                if("fOpen".equals(this.state)){
+                    this.result = this.parent.getResult();
+                }else{
+                    this.result = this.rFrom.getResult();
+                }
+            }else{
+                this.result = this.rFrom.getResult();
+            }
+        }else{
+            this.result = 0;
+        }
+        return this.result;
     }
     
 }
