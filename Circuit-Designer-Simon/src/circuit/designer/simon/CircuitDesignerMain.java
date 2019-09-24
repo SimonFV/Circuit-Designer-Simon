@@ -94,6 +94,7 @@ public class CircuitDesignerMain extends Application{
                 if(andButton.isSelected()){
                     MoveGate.ButtonControl(andButton, e, "AND");
                 }
+                circuit.unSelectAll();
             }
         });
         mainScene.setOnKeyPressed(key->{

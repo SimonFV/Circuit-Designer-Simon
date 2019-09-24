@@ -19,7 +19,7 @@ import javafx.scene.layout.Pane;
 public class MoveGate{
     private static double newX, newY;
     private static String state = "normal"; //Permite relizar solo ciertas acciones a la vez
-    private static boolean Bstate;
+    private static boolean Bstate, Gstate;
     private static boolean conecting;
     private static Gate tempPoint;
     
@@ -62,6 +62,9 @@ public class MoveGate{
                     circuit.makeConections();
                     System.out.println("Conecting Done");
                     conecting=false;
+                }else if(tempPoint.state=="Closed"){
+                    conecting=false;
+                    System.out.println("Conecting Done");
                 }
             }
         }else{
@@ -74,13 +77,13 @@ public class MoveGate{
     
     public static void GateControl(MouseEvent event, Gate source, CircuitList circuit){
         if(state.equals("normal")){
-        if(event.getButton()==MouseButton.PRIMARY){
-            if(source.selected==false){
-                source.nowSelected();
-            }else{
-                source.unSelected();
+            if(event.getButton()==MouseButton.PRIMARY){
+                if(source.selected==false){
+                    source.nowSelected();
+                }else{
+                    source.unSelected();
+                }
             }
-        }
         }
     }
     
@@ -105,10 +108,6 @@ public class MoveGate{
             state=s;
             Bstate=true;
         }
-    }
-    
-    public static void KeyControl(KeyEvent e){
-        
     }
     
     //Movimiento ajustado

@@ -208,4 +208,19 @@ public class CircuitList{
             makeConections();
         }
     }
+    
+    public void unSelectAll(){
+        if(this.last!=null){
+            Gate temp = this.last;
+            while(true){
+                if(temp.prev == null){
+                    temp.unSelected();
+                    break;
+                }else{
+                    temp.unSelected();
+                    temp = temp.prev;
+                }
+            }
+        }
+    }
 }
