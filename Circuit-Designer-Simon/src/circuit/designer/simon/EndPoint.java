@@ -6,7 +6,8 @@ import javafx.scene.layout.Pane;
 
 public class EndPoint extends Gate{
     
-    private Label LabelOut;
+    private Label LabelOut, LabelName;
+    private String name;
     
     public EndPoint(Pane target, double x, double y, CircuitList circuit) {
         super(target, x, y, circuit);
@@ -14,6 +15,7 @@ public class EndPoint extends Gate{
         this.ID = "ENDPOINT";
         this.code = 0;
         gselected = GateFigure.construct("ENDPOINTSELECTED");
+        this.name = "n";
     }
     
     @Override
@@ -31,6 +33,11 @@ public class EndPoint extends Gate{
         this.g.setOnMouseDragged(e->MoveGate.MouseControl(e,this,circuit));
         this.g.setOnMouseEntered(e->MoveGate.MouseControl(e,this,circuit));
         this.g.setOnMouseExited(e->MoveGate.MouseControl(e,this,circuit));
+        
+        this.LabelName = new Label(this.name);
+        this.LabelName.setLayoutX(0);
+        this.LabelName.setLayoutY(5);
+        this.g.getChildren().addAll(LabelName);
         
         this.LabelOut = new Label("0");
         this.LabelOut.setLayoutX(15);
@@ -55,6 +62,12 @@ public class EndPoint extends Gate{
         }
         this.LabelOut.setText(Integer.toString(this.result));
         return this.result;
+    }
+    
+    @Override
+    public void setName(String name){
+        this.name = name;
+        this.LabelName.setText(this.name);
     }
     
 }

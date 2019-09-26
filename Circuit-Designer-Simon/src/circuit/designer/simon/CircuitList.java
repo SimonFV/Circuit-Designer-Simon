@@ -64,6 +64,8 @@ public class CircuitList{
             target.getChildren().addAll(this.last.Out.getFigure(),
                     this.last.InTop.getFigure(),this.last.InBot.getFigure());
         }
+        
+        setInsOuts();
         this.last.code = size+1;
         this.size += 1;
     }
@@ -303,6 +305,35 @@ public class CircuitList{
                 }else{
                     if("ENDPOINT".equals(temp.ID)){
                         System.out.println(temp.getResult());
+                    }
+                    temp = temp.prev;
+                }
+            }
+        }
+    }
+    
+    public void setInsOuts(){
+        int i = 0;
+        int j = 0;
+        if(this.last!=null){
+            Gate temp = this.last;
+            while(true){
+                if(temp.prev == null){
+                    if("ENDPOINT".equals(temp.ID)){
+                        temp.setName("O<"+Integer.toString(j)+">");
+                        j++;
+                    }else if("STARTPOINT".equals(temp.ID)){
+                        temp.setName("I<"+Integer.toString(i)+">");
+                        i++;
+                    }
+                    break;
+                }else{
+                    if("ENDPOINT".equals(temp.ID)){
+                        temp.setName("O<"+Integer.toString(j)+">");
+                        j++;
+                    }else if("STARTPOINT".equals(temp.ID)){
+                        temp.setName("I<"+Integer.toString(i)+">");
+                        i++;
                     }
                     temp = temp.prev;
                 }

@@ -83,5 +83,7 @@ abstract class Gate {
         this.g.getChildren().remove(this.gselected);
     }
     
+    public void setName(String name){}
+    
 }
     

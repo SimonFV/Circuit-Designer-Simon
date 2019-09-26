@@ -2,11 +2,14 @@
 package circuit.designer.simon;
 
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 class StartPoint extends Gate{
     
+    private Label LabelName;
     private ChoiceBox<String> InBox;
+    private String name;
     
     //Constructor
     public StartPoint(Pane target, double x, double y, CircuitList circuit) {
@@ -15,6 +18,7 @@ class StartPoint extends Gate{
         this.ID = "STARTPOINT";
         this.code = 0;
         this.gselected = GateFigure.construct("STARTPOINTSELECTED");
+        this.name = "n";
     }
     
     @Override
@@ -33,6 +37,11 @@ class StartPoint extends Gate{
         this.g.setOnMouseEntered(e->MoveGate.MouseControl(e,this,circuit));
         this.g.setOnMouseExited(e->MoveGate.MouseControl(e,this,circuit));
         
+        this.LabelName = new Label(this.name);
+        this.LabelName.setLayoutX(0);
+        this.LabelName.setLayoutY(5);
+        this.g.getChildren().addAll(LabelName);
+        
         //Drop list
         this.InBox = new ChoiceBox<>();
         this.InBox.getItems().addAll("0", "1");
@@ -40,6 +49,7 @@ class StartPoint extends Gate{
         this.InBox.setLayoutX(-50);
         this.InBox.setLayoutY(-15);
         this.g.getChildren().addAll(InBox);
+        
     }
     
     @Override
@@ -54,6 +64,12 @@ class StartPoint extends Gate{
     public int getResult(){
         this.result = Integer.parseInt(this.InBox.getValue());
         return this.result;
+    }
+    
+    @Override
+    public void setName(String name){
+        this.name = name;
+        this.LabelName.setText(this.name);
     }
     
 }

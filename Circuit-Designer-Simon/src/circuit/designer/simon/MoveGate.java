@@ -34,6 +34,13 @@ public class MoveGate{
                         source.nowSelected();
                     }else if(source.selected==true && xFirst==newX && yFirst==newY){
                         source.unSelected();
+                        if(tempPoint!=null){
+                            System.out.println("Conecting Canceled");
+                            conecting=false;
+                            tempPoint.unSelected();
+                        }  
+                    }else if(source.selected==false){
+                        source.nowSelected();
                     }
                 }else if(event.getEventType()==MOUSE_DRAGGED){
                     newX = event.getSceneX();
