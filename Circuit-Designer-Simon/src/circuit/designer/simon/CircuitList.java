@@ -56,6 +56,14 @@ public class CircuitList{
         //Crea y agrega la figura al panel
         this.last.constructFigure();
         target.getChildren().add(this.last.getFigure());
+        if("NOT".equals(type)){
+            
+        }else if("POINT".equals(type)||"STARTPOINT".equals(type)||"ENDPOINT".equals(type)){
+            
+        }else{
+            target.getChildren().addAll(this.last.Out.getFigure(),
+                    this.last.InTop.getFigure(),this.last.InBot.getFigure());
+        }
         this.last.code = size+1;
         this.size += 1;
     }
@@ -182,6 +190,9 @@ public class CircuitList{
                                 temp.Out.state="Closed";
                                 temp.InBot.state="Closed";
                                 temp.InTop.state="Closed";
+                                target.getChildren().remove(temp.Out.getFigure());
+                                target.getChildren().remove(temp.InTop.getFigure());
+                                target.getChildren().remove(temp.InBot.getFigure());
                             }
                             this.last=null;
                             temp=null;
@@ -200,6 +211,9 @@ public class CircuitList{
                                 temp.Out.state="Closed";
                                 temp.InBot.state="Closed";
                                 temp.InTop.state="Closed";
+                                target.getChildren().remove(temp.Out.getFigure());
+                                target.getChildren().remove(temp.InTop.getFigure());
+                                target.getChildren().remove(temp.InBot.getFigure());
                             }
                             temp.next.prev=null;
                             temp.next=null;
@@ -225,6 +239,9 @@ public class CircuitList{
                                 temp.Out.state="Closed";
                                 temp.InBot.state="Closed";
                                 temp.InTop.state="Closed";
+                                target.getChildren().remove(temp.Out.getFigure());
+                                target.getChildren().remove(temp.InTop.getFigure());
+                                target.getChildren().remove(temp.InBot.getFigure());
                             }
                             this.last.prev.next=null;
                             this.last=this.last.prev;
@@ -243,6 +260,9 @@ public class CircuitList{
                                 temp.Out.state="Closed";
                                 temp.InBot.state="Closed";
                                 temp.InTop.state="Closed";
+                                target.getChildren().remove(temp.Out.getFigure());
+                                target.getChildren().remove(temp.InTop.getFigure());
+                                target.getChildren().remove(temp.InBot.getFigure());
                             }
                             temp.next.prev=temp.prev;
                             temp.prev.next=temp.next;

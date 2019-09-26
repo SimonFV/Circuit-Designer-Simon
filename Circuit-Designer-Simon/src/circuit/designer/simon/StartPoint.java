@@ -1,9 +1,12 @@
 
 package circuit.designer.simon;
 
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.Pane;
 
 class StartPoint extends Gate{
+    
+    private ChoiceBox<String> InBox;
     
     //Constructor
     public StartPoint(Pane target, double x, double y, CircuitList circuit) {
@@ -11,7 +14,7 @@ class StartPoint extends Gate{
         this.state = "Start";
         this.ID = "STARTPOINT";
         this.code = 0;
-        gselected = GateFigure.construct("STARTPOINTSELECTED");
+        this.gselected = GateFigure.construct("STARTPOINTSELECTED");
     }
     
     @Override
@@ -29,6 +32,14 @@ class StartPoint extends Gate{
         this.g.setOnMouseDragged(e->MoveGate.MouseControl(e,this,circuit));
         this.g.setOnMouseEntered(e->MoveGate.MouseControl(e,this,circuit));
         this.g.setOnMouseExited(e->MoveGate.MouseControl(e,this,circuit));
+        
+        //Drop list
+        this.InBox = new ChoiceBox<>();
+        this.InBox.getItems().addAll("0", "1");
+        this.InBox.setValue("0");
+        this.InBox.setLayoutX(-50);
+        this.InBox.setLayoutY(-15);
+        this.g.getChildren().addAll(InBox);
     }
     
     @Override
@@ -41,7 +52,7 @@ class StartPoint extends Gate{
    
     @Override
     public int getResult(){
-        this.result = 1;
+        this.result = Integer.parseInt(this.InBox.getValue());
         return this.result;
     }
     

@@ -10,7 +10,7 @@ abstract class Gate {
     protected Group g, gselected;
     protected Pane target;
     protected Gate next, prev, InTop, InBot, Out, rFrom, parent;
-    protected String ID, state; //Estados de los puntos: Active, BackOpen, FrontOpen, Start, End, Closed
+    protected String ID, state; //Estados de los puntos: Active, bOpen, fOpen, Start, End, Closed
     protected int code,result;
     protected boolean selected;
     protected CircuitList circuit;

@@ -74,7 +74,13 @@ public class CircuitDesignerMain extends Application{
         Button generateButton = new Button("GENERATE");
         GridPane.setConstraints(generateButton,0,9);
         //generateButton.setGraphic(GateFigure.construct("AND"));
-        generateButton.setOnMouseClicked(e->circuit.showResults());
+        generateButton.setOnMouseClicked(e->{
+            try{
+                circuit.showResults();
+            }catch(StackOverflowError st){
+                System.out.println("Circuito incorrecto, ciclo infinito");
+            }
+        });
         
         //MENU
         GridPane menu = new GridPane();

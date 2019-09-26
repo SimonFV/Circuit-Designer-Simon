@@ -1,9 +1,13 @@
 
 package circuit.designer.simon;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 public class EndPoint extends Gate{
+    
+    private Label LabelOut;
+    
     public EndPoint(Pane target, double x, double y, CircuitList circuit) {
         super(target, x, y, circuit);
         this.state = "End";
@@ -27,6 +31,11 @@ public class EndPoint extends Gate{
         this.g.setOnMouseDragged(e->MoveGate.MouseControl(e,this,circuit));
         this.g.setOnMouseEntered(e->MoveGate.MouseControl(e,this,circuit));
         this.g.setOnMouseExited(e->MoveGate.MouseControl(e,this,circuit));
+        
+        this.LabelOut = new Label("0");
+        this.LabelOut.setLayoutX(15);
+        this.LabelOut.setLayoutY(-10);
+        this.g.getChildren().add(LabelOut);
     }
     
     @Override
@@ -44,6 +53,7 @@ public class EndPoint extends Gate{
         }else{
             this.result = 0;
         }
+        this.LabelOut.setText(Integer.toString(this.result));
         return this.result;
     }
     

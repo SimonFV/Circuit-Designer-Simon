@@ -9,7 +9,7 @@ public class Point extends Gate{
     public Point(Pane target, double x, double y, CircuitList circuit){
         super(target, x, y, circuit);
         this.ID = "POINT";
-        gselected = GateFigure.construct("POINTSELECTED");
+        this.gselected = GateFigure.construct("POINTSELECTED");
     }
     
     @Override
