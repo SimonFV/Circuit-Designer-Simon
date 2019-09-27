@@ -60,14 +60,21 @@ public class EndPoint extends Gate{
         }else{
             this.result = 0;
         }
-        this.LabelOut.setText(Integer.toString(this.result));
         return this.result;
+    }
+    @Override
+    public void setResult(int result){
+        this.LabelOut.setText(Integer.toString(this.result));
     }
     
     @Override
     public void setName(String name){
         this.name = name;
         this.LabelName.setText(this.name);
+    }
+    @Override
+    public String getName(){
+        return this.name;
     }
     
 }

@@ -1,6 +1,8 @@
 
 package circuit.designer.simon;
 
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 public class CircuitList{
@@ -275,6 +277,7 @@ public class CircuitList{
             }
             MoveGate.notConecting();
             makeConections();
+            setInsOuts();
         }
     }
     
@@ -300,11 +303,13 @@ public class CircuitList{
                 if(temp.prev == null){
                     if("ENDPOINT".equals(temp.ID)){
                         System.out.println(temp.getResult());
+                        temp.setResult(1);
                     }
                     break;
                 }else{
                     if("ENDPOINT".equals(temp.ID)){
                         System.out.println(temp.getResult());
+                        temp.setResult(1);
                     }
                     temp = temp.prev;
                 }
@@ -334,6 +339,105 @@ public class CircuitList{
                     }else if("STARTPOINT".equals(temp.ID)){
                         temp.setName("I<"+Integer.toString(i)+">");
                         i++;
+                    }
+                    temp = temp.prev;
+                }
+            }
+        }
+    }
+    
+    public void generateTable(GridPane table){
+        int i = 0;
+        int e = 0;
+        TableList tablelist = new TableList();
+        if(this.last!=null){
+            Gate temp = this.last;
+            while(true){
+                if(temp.prev == null){
+                    if("STARTPOINT".equals(temp.ID)){
+                        Label stLabel = new Label(temp.getName());
+                        GridPane.setConstraints(stLabel,i,0);
+                        tablelist.addColumnIn(temp);
+                        table.getChildren().add(stLabel);
+                        i++;
+                    }
+                    break;
+                }else{
+                    if("STARTPOINT".equals(temp.ID)){
+                        Label stLabel = new Label(temp.getName());
+                        GridPane.setConstraints(stLabel,i,0);
+                        tablelist.addColumnIn(temp);
+                        table.getChildren().add(stLabel);
+                        i++;
+                    }
+                    temp = temp.prev;
+                }
+            }
+            if(i!=0){
+                tablelist.addInRows();
+            }
+            
+            temp = this.last;
+            while(true){
+                if(temp.prev == null){
+                    if("ENDPOINT".equals(temp.ID)){
+                        Label endLabel = new Label(temp.getName());
+                        GridPane.setConstraints(endLabel,i+e,0);
+                        tablelist.addColumnOut(temp);
+                        table.getChildren().add(endLabel);
+                        e++;
+                    }
+                    break;
+                }else{
+                    if("ENDPOINT".equals(temp.ID)){
+                        Label endLabel = new Label(temp.getName());
+                        GridPane.setConstraints(endLabel,i+e,0);
+                        tablelist.addColumnOut(temp);
+                        table.getChildren().add(endLabel);
+                        e++;
+                    }
+                    temp = temp.prev;
+                }
+            }
+            if(e!=0){
+                tablelist.addOutRows();
+            }
+            testingNow();
+            tablelist.setLastRows(table);
+            testingDone();
+        }
+    }
+    
+    public void testingNow(){
+        if(this.last!=null){
+            Gate temp = this.last;
+            while(true){
+                if(temp.prev == null){
+                    if("STARTPOINT".equals(temp.ID)){
+                        temp.setTesting(true);
+                    }
+                    break;
+                }else{
+                    if("STARTPOINT".equals(temp.ID)){
+                        temp.setTesting(true);
+                    }
+                    temp = temp.prev;
+                }
+            }
+        }
+    }
+    public void testingDone(){
+        if(this.last!=null){
+            Gate temp = this.last;
+            while(true){
+                if(temp.prev == null){
+                    if("STARTPOINT".equals(temp.ID)){
+                        temp.setTesting(false);
+                    }
+                    break;
+                }else{
+                    if("STARTPOINT".equals(temp.ID)){
+                        temp.setTesting(false);
                     }
                     temp = temp.prev;
                 }

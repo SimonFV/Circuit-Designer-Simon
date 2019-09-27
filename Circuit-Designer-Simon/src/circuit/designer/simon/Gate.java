@@ -66,6 +66,7 @@ abstract class Gate {
     public int getResult(){
         return this.result;
     }
+    public void setResult(int result){}
     
     public void setrFrom(Gate rFrom){
         this.rFrom=rFrom;
@@ -85,5 +86,10 @@ abstract class Gate {
     
     public void setName(String name){}
     
+    public String getName(){
+        return "asd";
+    }
+    
+    public void setTesting(boolean testing){}
 }
     

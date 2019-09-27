@@ -20,6 +20,7 @@ public class CircuitDesignerMain extends Application{
     private Stage window;
     private Scene mainScene;
     private CircuitList circuit;
+    private boolean showingTable = false;
     
     public static void main(String[] args) {
         launch(args);
@@ -74,22 +75,27 @@ public class CircuitDesignerMain extends Application{
         Button generateButton = new Button("GENERATE");
         GridPane.setConstraints(generateButton,0,9);
         //generateButton.setGraphic(GateFigure.construct("AND"));
+        //GENERA LA TABLA
         generateButton.setOnMouseClicked(e->{
             try{
-                circuit.showResults();
+                if(!showingTable){
+                    showingTable = true;
+                    circuit.showResults();
+                    addToTable(root);
+                }
             }catch(StackOverflowError st){
                 System.out.println("Circuito incorrecto, ciclo infinito");
+                showingTable = false;
             }
         });
         
         //MENU
         GridPane menu = new GridPane();
-        menu.setMaxHeight(60);
-        menu.setMinHeight(60);
         menu.setVgap(5);
-        
+        menu.setHgap(5);
         menu.getChildren().addAll(andButton,orButton,notButton,
                 nandButton,norButton,xorButton,xnorButton, startButton, endButton, generateButton);
+        
         
         root.getChildren().addAll(target, menu);
         
@@ -98,7 +104,7 @@ public class CircuitDesignerMain extends Application{
                 MoveGate.PaneControl(circuit, target, mainScene, e);
                 }});
         
-        mainScene = new Scene(root, 620, 480);
+        mainScene = new Scene(root, 800, 600);
         mainScene.setOnMouseClicked(e -> {
             if(e.getButton()==MouseButton.SECONDARY){
                 if(andButton.isSelected()){
@@ -123,5 +129,24 @@ public class CircuitDesignerMain extends Application{
         primaryStage.setScene(mainScene);
         primaryStage.show();
     }
+    
+    public void addToTable(Group root){
+        GridPane table = new GridPane();
+        Button closeTable = new Button("Close");
+        GridPane.setConstraints(closeTable,0,20);
+        
+        circuit.generateTable(table);
+        
+        table.getChildren().addAll(closeTable);
+        table.setLayoutX(400);
+        table.setLayoutY(400);
+        root.getChildren().add(table);
+        
+        closeTable.setOnMouseClicked(e->{
+            showingTable = false;
+            root.getChildren().remove(table);
+        });
+    }
+    
     
 }

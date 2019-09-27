@@ -10,6 +10,7 @@ class StartPoint extends Gate{
     private Label LabelName;
     private ChoiceBox<String> InBox;
     private String name;
+    private boolean testing;
     
     //Constructor
     public StartPoint(Pane target, double x, double y, CircuitList circuit) {
@@ -19,6 +20,7 @@ class StartPoint extends Gate{
         this.code = 0;
         this.gselected = GateFigure.construct("STARTPOINTSELECTED");
         this.name = "n";
+        this.testing = false;
     }
     
     @Override
@@ -62,14 +64,29 @@ class StartPoint extends Gate{
    
     @Override
     public int getResult(){
-        this.result = Integer.parseInt(this.InBox.getValue());
+        if(!testing){
+            this.result = Integer.parseInt(this.InBox.getValue());
+        }
         return this.result;
+    }
+    @Override
+    public void setResult(int result){
+        this.result = result;
     }
     
     @Override
     public void setName(String name){
         this.name = name;
         this.LabelName.setText(this.name);
+    }
+    @Override
+    public String getName(){
+        return this.name;
+    }
+    
+    @Override
+    public void setTesting(boolean testing){
+        this.testing = testing;
     }
     
 }
