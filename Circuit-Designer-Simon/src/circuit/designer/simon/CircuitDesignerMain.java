@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -22,7 +23,6 @@ public class CircuitDesignerMain extends Application{
     private Stage window;
     private Scene mainScene;
     private CircuitList circuit;
-    private boolean showingTable = false;
     
     public static void main(String[] args) {
         launch(args);
@@ -89,28 +89,33 @@ public class CircuitDesignerMain extends Application{
         GridPane.setConstraints(endButton,0,8);
         endButton.setGraphic(GateFigure.construct("ENDPOINT"));
         endButton.setOnMouseClicked(e->MoveGate.ButtonControl(endButton, e, "ENDPOINT"));
+        
+        ScrollPane s2 = new ScrollPane();
+        s2.setPrefSize(980, 155);
+        root.setBottom(s2);
+        
         //GENERA LA TABLA
         Button generateButton = new Button("SIMULATE");
         GridPane.setConstraints(generateButton,0,9);
         generateButton.setOnMouseClicked(e->{
             try{
-                if(!showingTable){
-                    showingTable = true;
-                    circuit.showResults();
-                    addToTable(root);
-                }
+                circuit.showResults();
+                addToTable(s2);
             }catch(StackOverflowError st){
                 System.out.println("Circuito incorrecto, ciclo infinito");
-                showingTable = false;
             }
         });
         Button saveButton = new Button("SAVE");
         GridPane.setConstraints(saveButton,0,10);
         
         //MENU
+        
         GridPane menu = new GridPane();
         menu.setVgap(5);
         menu.setHgap(5);
+        ScrollPane s1 = new ScrollPane();
+        s1.setPrefSize(150, 540);
+        s1.setContent(menu);
         menu.getChildren().addAll(andButton,orButton,notButton,
                 nandButton,norButton,xorButton,xnorButton, startButton,
                 endButton, generateButton, saveButton);
@@ -124,7 +129,7 @@ public class CircuitDesignerMain extends Application{
             }
         });
         
-        root.setLeft(menu);
+        root.setLeft(s1);
         target.getChildren().add(root);
         
         target.setOnMouseClicked(e -> {
@@ -182,21 +187,11 @@ public class CircuitDesignerMain extends Application{
     * No es posible generar una nueva tabla hasta que no se cierre la actual con el botón creado.
     * @param root Define el panel donde se montará la tabla.
     */
-    public void addToTable(BorderPane root){
+    public void addToTable(ScrollPane s2){
         GridPane table = new GridPane();
-        Button closeTable = new Button("Close");
-        GridPane.setConstraints(closeTable,0,0);
-        
         circuit.generateTable(table);
-        
-        table.getChildren().addAll(closeTable);
         table.setAlignment(Pos.BOTTOM_LEFT);
-        root.setBottom(table);
-        
-        closeTable.setOnMouseClicked(e->{
-            showingTable = false;
-            root.getChildren().remove(table);
-        });
+        s2.setContent(table);
     }
     
     

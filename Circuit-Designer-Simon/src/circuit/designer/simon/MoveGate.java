@@ -53,10 +53,10 @@ public class MoveGate{
                 }else if(event.getEventType()==MOUSE_DRAGGED){
                     newX = event.getSceneX();
                     newY = event.getSceneY();
+                    source.moveFigure(adjust(newX), adjust(newY));
+                    circuit.refresh();
                     //Mantenerse dentro del panel
                     if(newX < 980 || newX > 120 || newY > 0 || newY < 680) {
-                        source.moveFigure(adjust(newX), adjust(newY));
-                        circuit.refresh();
                     }
                 }else if(event.getEventType()==MOUSE_ENTERED){
                         //Brillar
