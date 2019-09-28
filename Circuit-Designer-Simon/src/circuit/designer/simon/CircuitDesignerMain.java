@@ -48,26 +48,43 @@ public class CircuitDesignerMain extends Application{
         GridPane.setConstraints(andButton,0,0);
         andButton.setGraphic(GateFigure.construct("AND"));
         andButton.setOnMouseClicked(e->MoveGate.ButtonControl(andButton, e, "AND"));
-        
-        Button orButton = new Button("OR");
+        //OR
+        ToggleButton orButton = new ToggleButton("OR");
         GridPane.setConstraints(orButton,0,1);
-        Button notButton = new Button("NOT");
+        orButton.setGraphic(GateFigure.construct("OR"));
+        orButton.setOnMouseClicked(e->MoveGate.ButtonControl(orButton, e, "OR"));
+        //NOT
+        ToggleButton notButton = new ToggleButton("NOT");
         GridPane.setConstraints(notButton,0,2);
-        Button nandButton = new Button("NAND");
+        notButton.setGraphic(GateFigure.construct("NOT"));
+        notButton.setOnMouseClicked(e->MoveGate.ButtonControl(notButton, e, "NOT"));
+        //NAND
+        ToggleButton nandButton = new ToggleButton("NAND");
         GridPane.setConstraints(nandButton,0,3);
-        Button norButton = new Button("NOR");
+        nandButton.setGraphic(GateFigure.construct("NAND"));
+        nandButton.setOnMouseClicked(e->MoveGate.ButtonControl(nandButton, e, "NAND"));
+        //NOR
+        ToggleButton norButton = new ToggleButton("NOR");
         GridPane.setConstraints(norButton,0,4);
-        Button xorButton = new Button("XOR");
+        norButton.setGraphic(GateFigure.construct("NOR"));
+        norButton.setOnMouseClicked(e->MoveGate.ButtonControl(norButton, e, "NOR"));
+        //XOR
+        ToggleButton xorButton = new ToggleButton("XOR");
         GridPane.setConstraints(xorButton,0,5);
-        Button xnorButton = new Button("XNOR");
+        xorButton.setGraphic(GateFigure.construct("XOR"));
+        xorButton.setOnMouseClicked(e->MoveGate.ButtonControl(xorButton, e, "XOR"));
+        //XNOR
+        ToggleButton xnorButton = new ToggleButton("XNOR");
         GridPane.setConstraints(xnorButton,0,6);
+        xnorButton.setGraphic(GateFigure.construct("XNOR"));
+        xnorButton.setOnMouseClicked(e->MoveGate.ButtonControl(xnorButton, e, "XNOR"));
         //STARTPOINT
-        ToggleButton startButton = new ToggleButton();
+        ToggleButton startButton = new ToggleButton("IN");
         GridPane.setConstraints(startButton,0,7);
         startButton.setGraphic(GateFigure.construct("STARTPOINT"));
         startButton.setOnMouseClicked(e->MoveGate.ButtonControl(startButton, e, "STARTPOINT"));
         //ENDPOINT
-        ToggleButton endButton = new ToggleButton();
+        ToggleButton endButton = new ToggleButton("OUT");
         GridPane.setConstraints(endButton,0,8);
         endButton.setGraphic(GateFigure.construct("ENDPOINT"));
         endButton.setOnMouseClicked(e->MoveGate.ButtonControl(endButton, e, "ENDPOINT"));
@@ -114,6 +131,8 @@ public class CircuitDesignerMain extends Application{
                 }});
         
         mainScene = new Scene(root, 800, 600);
+        //Desactiva los botones para añadir compuertas
+        //deselecciona todo y cierra las conexiones pendientes
         mainScene.setOnMouseClicked(e -> {
             if(e.getButton()==MouseButton.SECONDARY){
                 if(andButton.isSelected()){
@@ -124,6 +143,24 @@ public class CircuitDesignerMain extends Application{
                 }
                 if(endButton.isSelected()){
                     MoveGate.ButtonControl(endButton, e, "ENDPOINT");
+                }
+                if(notButton.isSelected()){
+                    MoveGate.ButtonControl(notButton, e, "NOT");
+                }
+                if(orButton.isSelected()){
+                    MoveGate.ButtonControl(orButton, e, "OR");
+                }
+                if(nandButton.isSelected()){
+                    MoveGate.ButtonControl(nandButton, e, "NAND");
+                }
+                if(norButton.isSelected()){
+                    MoveGate.ButtonControl(norButton, e, "NOR");
+                }
+                if(xorButton.isSelected()){
+                    MoveGate.ButtonControl(xorButton, e, "XOR");
+                }
+                if(xnorButton.isSelected()){
+                    MoveGate.ButtonControl(xnorButton, e, "XNOR");
                 }
                 circuit.unSelectAll();
                 MoveGate.notConecting();

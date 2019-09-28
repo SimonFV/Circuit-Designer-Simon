@@ -35,7 +35,6 @@ public class MoveGate{
                     }else if(source.selected==true && xFirst==newX && yFirst==newY){
                         source.unSelected();
                         if(tempPoint!=null){
-                            System.out.println("Conecting Canceled");
                             conecting=false;
                             tempPoint.unSelected();
                         }  
@@ -69,7 +68,6 @@ public class MoveGate{
                             ("bOpen".equals(source.state)||"End".equals(source.state))){
                         source.setrFrom(tempPoint);
                         circuit.makeConections();
-                        System.out.println("Conecting Done");
                         conecting=false;
                         tempPoint.unSelected();
                         circuit.unSelectAll();
@@ -77,13 +75,11 @@ public class MoveGate{
                             ("fOpen".equals(source.state)||"Start".equals(source.state))){
                         tempPoint.setrFrom(source);
                         circuit.makeConections();
-                        System.out.println("Conecting Done");
                         conecting=false;
                         tempPoint.unSelected();
                         circuit.unSelectAll();
                     }else if("Closed".equals(tempPoint.state)){
                         conecting=false;
-                        System.out.println("Conecting Done");
                         tempPoint.unSelected();
                         circuit.unSelectAll();
                     }
@@ -93,8 +89,6 @@ public class MoveGate{
                 if(tempPoint.parent!=tempPoint){
                     tempPoint.nowSelected();
                 }
-                
-                System.out.println("Conecting Now");
                 conecting=true;
             }
         }
@@ -111,6 +105,18 @@ public class MoveGate{
             circuit.addLast("STARTPOINT", adjust(newX), adjust(newY));
         }else if("ENDPOINT".equals(state)){
             circuit.addLast("ENDPOINT", adjust(newX), adjust(newY));
+        }else if("NOT".equals(state)){
+            circuit.addLast("NOT", adjust(newX), adjust(newY));
+        }else if("OR".equals(state)){
+            circuit.addLast("OR", adjust(newX), adjust(newY));
+        }else if("NAND".equals(state)){
+            circuit.addLast("NAND", adjust(newX), adjust(newY));
+        }else if("NOR".equals(state)){
+            circuit.addLast("NOR", adjust(newX), adjust(newY));
+        }else if("XOR".equals(state)){
+            circuit.addLast("XOR", adjust(newX), adjust(newY));
+        }else if("XNOR".equals(state)){
+            circuit.addLast("XNOR", adjust(newX), adjust(newY));
         }
     }
     
@@ -128,7 +134,6 @@ public class MoveGate{
     
     public static void notConecting(){
         if(tempPoint!=null){
-            System.out.println("Conecting Canceled");
             conecting=false;
             tempPoint.unSelected();
         }  

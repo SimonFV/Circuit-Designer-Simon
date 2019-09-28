@@ -30,6 +30,18 @@ public class CircuitList{
                 this.first = new StartPoint(target, x,y, this);
             }else if("ENDPOINT".equals(type)){
                 this.first = new EndPoint(target, x,y, this);
+            }else if("NOT".equals(type)){
+                this.first = new Not(target, x,y, this);
+            }else if("OR".equals(type)){
+                this.first = new Or(target, x,y, this);
+            }else if("NAND".equals(type)){
+                this.first = new Nand(target, x,y, this);
+            }else if("NOR".equals(type)){
+                this.first = new Nor(target, x,y, this);
+            }else if("XOR".equals(type)){
+                this.first = new Xor(target, x,y, this);
+            }else if("XNOR".equals(type)){
+                this.first = new Xnor(target, x,y, this);
             }
             this.last = this.first;
         //Si la lista contine algo
@@ -54,6 +66,36 @@ public class CircuitList{
                 this.last.next = n;
                 this.last.next.prev = this.last;
                 this.last = n;
+            }else if("NOT".equals(type)){
+                Gate n = new Not(target, x,y, this);
+                this.last.next = n;
+                this.last.next.prev = this.last;
+                this.last = n;
+            }else if("OR".equals(type)){
+                Gate n = new Or(target, x,y, this);
+                this.last.next = n;
+                this.last.next.prev = this.last;
+                this.last = n;
+            }else if("NAND".equals(type)){
+                Gate n = new Nand(target, x,y, this);
+                this.last.next = n;
+                this.last.next.prev = this.last;
+                this.last = n;
+            }else if("NOR".equals(type)){
+                Gate n = new Nor(target, x,y, this);
+                this.last.next = n;
+                this.last.next.prev = this.last;
+                this.last = n;
+            }else if("XOR".equals(type)){
+                Gate n = new Xor(target, x,y, this);
+                this.last.next = n;
+                this.last.next.prev = this.last;
+                this.last = n;
+            }else if("XNOR".equals(type)){
+                Gate n = new Xnor(target, x,y, this);
+                this.last.next = n;
+                this.last.next.prev = this.last;
+                this.last = n;
             }
         }
         
@@ -61,9 +103,10 @@ public class CircuitList{
         this.last.constructFigure();
         target.getChildren().add(this.last.getFigure());
         if("NOT".equals(type)){
-            
+            target.getChildren().addAll(this.last.Out.getFigure(),
+                    this.last.InTop.getFigure());
         }else if("POINT".equals(type)||"STARTPOINT".equals(type)||"ENDPOINT".equals(type)){
-            
+            //POINT
         }else{
             target.getChildren().addAll(this.last.Out.getFigure(),
                     this.last.InTop.getFigure(),this.last.InBot.getFigure());
@@ -89,11 +132,16 @@ public class CircuitList{
             while(true){
                 if(temp.prev == null){
                     if("POINT".equals(temp.ID)){
-                        //POINT
                     }else if("NOT".equals(temp.ID)){
-                        //NOT
+                        if(temp.InTop.rFrom!=null){
+                            if(!"Closed".equals(temp.InTop.rFrom.state)){
+                                cList.addLast(temp.InTop,temp.InTop.rFrom);
+                            }else{
+                                temp.InTop.rFrom=null;
+                            }
+                        }
                     }else if("STARTPOINT".equals(temp.ID)){
-                        //NOT
+                        //DONT
                     }else if("ENDPOINT".equals(temp.ID)){
                         if(temp.rFrom!=null){
                             if(!"Closed".equals(temp.rFrom.state)){
@@ -123,9 +171,15 @@ public class CircuitList{
                     if("POINT".equals(temp.ID)){
                         //POINT
                     }else if("NOT".equals(temp.ID)){
-                        //NOT
+                        if(temp.InTop.rFrom!=null){
+                            if(!"Closed".equals(temp.InTop.rFrom.state)){
+                                cList.addLast(temp.InTop,temp.InTop.rFrom);
+                            }else{
+                                temp.InTop.rFrom=null;
+                            }
+                        }
                     }else if("STARTPOINT".equals(temp.ID)){
-                        //NOT
+                        //DONT
                     }else if("ENDPOINT".equals(temp.ID)){
                         if(temp.rFrom!=null){
                             if(!"Closed".equals(temp.rFrom.state)){
@@ -161,7 +215,6 @@ public class CircuitList{
     }
     
     public void delete(){
-        System.out.println("deleting");
         if(this.last!=null){
             Gate temp = this.last;
             while(true){
@@ -171,13 +224,16 @@ public class CircuitList{
                             target.getChildren().remove(temp.getFigure());
                             temp.state="Closed";
                             if("NOT".equals(temp.ID)){
-                                //NOT
+                                temp.Out.state="Closed";
+                                temp.InTop.state="Closed";
+                                target.getChildren().remove(temp.Out.getFigure());
+                                target.getChildren().remove(temp.InTop.getFigure());
                             }else if("POINT".equals(temp.ID)){
                                 //point
                             }else if("STARTPOINT".equals(temp.ID)){
                                 temp.state="Closed";
                             }else if("ENDPOINT".equals(temp.ID)){
-                                
+                                //DONT
                             }else{
                                 temp.Out.state="Closed";
                                 temp.InBot.state="Closed";
@@ -193,13 +249,16 @@ public class CircuitList{
                             target.getChildren().remove(temp.getFigure());
                             temp.state="Closed";
                             if("NOT".equals(temp.ID)){
-                                //NOT
+                                temp.Out.state="Closed";
+                                temp.InTop.state="Closed";
+                                target.getChildren().remove(temp.Out.getFigure());
+                                target.getChildren().remove(temp.InTop.getFigure());
                             }else if("POINT".equals(temp.ID)){
                                 //point
                             }else if("STARTPOINT".equals(temp.ID)){
                                 temp.state="Closed";
                             }else if("ENDPOINT".equals(temp.ID)){
-                                
+                                //DONT
                             }else{
                                 temp.Out.state="Closed";
                                 temp.InBot.state="Closed";
@@ -214,7 +273,6 @@ public class CircuitList{
                             temp=null;
                         }
                     }
-                    System.out.println("done");
                     break;
                 }else{
                     if(temp.selected){
@@ -222,13 +280,16 @@ public class CircuitList{
                             target.getChildren().remove(temp.getFigure());
                             temp.state="Closed";
                             if("NOT".equals(temp.ID)){
-                                //NOT
+                                temp.Out.state="Closed";
+                                temp.InTop.state="Closed";
+                                target.getChildren().remove(temp.Out.getFigure());
+                                target.getChildren().remove(temp.InTop.getFigure());
                             }else if("POINT".equals(temp.ID)){
                                 //point
                             }else if("STARTPOINT".equals(temp.ID)){
                                 temp.state="Closed";
                             }else if("ENDPOINT".equals(temp.ID)){
-                                
+                                //DONT
                             }else{
                                 temp.Out.state="Closed";
                                 temp.InBot.state="Closed";
@@ -243,13 +304,16 @@ public class CircuitList{
                             target.getChildren().remove(temp.getFigure());
                             temp.state="Closed";
                             if("NOT".equals(temp.ID)){
-                                //NOT
+                                temp.Out.state="Closed";
+                                temp.InTop.state="Closed";
+                                target.getChildren().remove(temp.Out.getFigure());
+                                target.getChildren().remove(temp.InTop.getFigure());
                             }else if("POINT".equals(temp.ID)){
                                 //point
                             }else if("STARTPOINT".equals(temp.ID)){
                                 temp.state="Closed";
                             }else if("ENDPOINT".equals(temp.ID)){
-                                
+                                //DONT
                             }else{
                                 temp.Out.state="Closed";
                                 temp.InBot.state="Closed";
@@ -268,7 +332,6 @@ public class CircuitList{
             MoveGate.notConecting();
             makeConections();
             setInsOuts();
-            //setFirst();
             reOrderAll();
         }
     }
@@ -289,18 +352,19 @@ public class CircuitList{
     }
     
     public void showResults(){
+        int i = 0;
         if(this.last!=null){
             Gate temp = this.last;
             while(true){
                 if(temp.prev == null){
                     if("ENDPOINT".equals(temp.ID)){
-                        System.out.println(temp.getResult());
+                        i = temp.getResult();
                         temp.setResult(1);
                     }
                     break;
                 }else{
                     if("ENDPOINT".equals(temp.ID)){
-                        System.out.println(temp.getResult());
+                        i = temp.getResult();
                         temp.setResult(1);
                     }
                     temp = temp.prev;
@@ -459,7 +523,6 @@ public class CircuitList{
         }else{
             this.size = 0;
         }
-        
     }
     
     public Gate getPosition(int i){
@@ -538,13 +601,11 @@ public class CircuitList{
                     if("NOT".equals(temp.ID)){
                         if(temp.InTop.rFrom!=null){
                             link=link+temp.code+"-2=";
-                            System.out.println("aqui1");
                             if(temp.InTop.rFrom.parent==temp.InTop.rFrom){
                                 link=link+temp.InTop.rFrom.code+"-0,";
                             }else{
                                 link=link+temp.InTop.rFrom.parent.code+"-1,";
                             }
-                            System.out.println("aqui2");
                         }
                     }else if("POINT".equals(temp.ID)||"ENDPOINT".equals(temp.ID)||
                             "STARTPOINT".equals(temp.ID)){
@@ -559,13 +620,11 @@ public class CircuitList{
                     }else{
                         if(temp.InTop.rFrom!=null){
                             link=link+temp.code+"-2=";
-                            System.out.println("aqui1");
                             if(temp.InTop.rFrom.parent==temp.InTop.rFrom){
                                 link=link+temp.InTop.rFrom.code+"-0,";
                             }else{
                                 link=link+temp.InTop.rFrom.parent.code+"-1,";
                             }
-                            System.out.println("aqui2");
                         }
                         if(temp.InBot.rFrom!=null){
                             link=link+temp.code+"-3=";
