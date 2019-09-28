@@ -36,7 +36,7 @@ public class TableBox {
         }
         temp.Title.setResult(temp.value);
         Label row = new Label(Integer.toString(temp.value));
-        GridPane.setConstraints(row, j, i+1);
+        GridPane.setConstraints(row, j, i+2);
         table.getChildren().add(row);
     }
     
@@ -49,7 +49,7 @@ public class TableBox {
         }
         temp.value=temp.Title.getResult();
         Label row = new Label(Integer.toString(temp.value));
-        GridPane.setConstraints(row, j, i+1);
+        GridPane.setConstraints(row, j, i+2);
         table.getChildren().add(row);
     }
     

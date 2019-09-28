@@ -21,7 +21,6 @@ public class TableList {
             this.last = this.first;
             this.last.ID="IN";
             this.size++;
-            System.out.println("primera entrada");
         }else{
             TableBox n = new TableBox(Title);
             n.prev = this.last;
@@ -29,7 +28,6 @@ public class TableList {
             this.last = n;
             this.last.ID="IN";
             this.size++;
-            System.out.println("otra entrada");
         }
     }
     

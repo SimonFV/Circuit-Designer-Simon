@@ -14,17 +14,19 @@ class And extends Gate{
         this.Out = new Point(target,x+30,y,circuit);
         this.Out.constructFigure();
         this.Out.state = "fOpen";
+        this.Out.code = 1;
         this.InTop = new Point(target,x-40,y-10,circuit);
         this.InTop.constructFigure();
         this.InTop.state = "bOpen";
+        this.InTop.code = 2;
         this.InBot = new Point(target,x-40,y+10,circuit);
         this.InBot.constructFigure();
         this.InBot.state = "bOpen";
+        this.InBot.code = 3;
         this.Out.parent = this;
         this.InTop.parent = this;
         this.InBot.parent = this;
         this.gselected = GateFigure.construct("ANDSELECTED");
-        
     }
     
     @Override

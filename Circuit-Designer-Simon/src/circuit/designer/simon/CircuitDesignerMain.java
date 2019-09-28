@@ -44,7 +44,7 @@ public class CircuitDesignerMain extends Application{
         
         //BOTONES y sus EVENTOS
         //AND
-        ToggleButton andButton = new ToggleButton();
+        ToggleButton andButton = new ToggleButton("AND");
         GridPane.setConstraints(andButton,0,0);
         andButton.setGraphic(GateFigure.construct("AND"));
         andButton.setOnMouseClicked(e->MoveGate.ButtonControl(andButton, e, "AND"));
@@ -71,11 +71,9 @@ public class CircuitDesignerMain extends Application{
         GridPane.setConstraints(endButton,0,8);
         endButton.setGraphic(GateFigure.construct("ENDPOINT"));
         endButton.setOnMouseClicked(e->MoveGate.ButtonControl(endButton, e, "ENDPOINT"));
-        //GENERATE
-        Button generateButton = new Button("GENERATE");
-        GridPane.setConstraints(generateButton,0,9);
-        //generateButton.setGraphic(GateFigure.construct("AND"));
         //GENERA LA TABLA
+        Button generateButton = new Button("SIMULATE");
+        GridPane.setConstraints(generateButton,0,9);
         generateButton.setOnMouseClicked(e->{
             try{
                 if(!showingTable){
@@ -88,14 +86,25 @@ public class CircuitDesignerMain extends Application{
                 showingTable = false;
             }
         });
+        Button saveButton = new Button("SAVE");
+        GridPane.setConstraints(saveButton,0,10);
         
         //MENU
         GridPane menu = new GridPane();
         menu.setVgap(5);
         menu.setHgap(5);
         menu.getChildren().addAll(andButton,orButton,notButton,
-                nandButton,norButton,xorButton,xnorButton, startButton, endButton, generateButton);
-        
+                nandButton,norButton,xorButton,xnorButton, startButton,
+                endButton, generateButton, saveButton);
+        //Carga los diagramas guardados
+        GateFileReader.loadNames(circuit, menu);
+        //Funcion para guardar los diagramas
+        saveButton.setOnMouseClicked(e->{
+            String diagram = circuit.getDiagram();
+            if(!"\n".equals(diagram)){
+                SaveBox.saveName(circuit, menu, diagram);
+            }
+        });
         
         root.getChildren().addAll(target, menu);
         
@@ -133,7 +142,7 @@ public class CircuitDesignerMain extends Application{
     public void addToTable(Group root){
         GridPane table = new GridPane();
         Button closeTable = new Button("Close");
-        GridPane.setConstraints(closeTable,0,20);
+        GridPane.setConstraints(closeTable,0,0);
         
         circuit.generateTable(table);
         

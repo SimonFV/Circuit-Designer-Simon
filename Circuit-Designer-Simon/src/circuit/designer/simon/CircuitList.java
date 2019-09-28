@@ -6,7 +6,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 public class CircuitList{
-    private Gate last;
+    private Gate first, last;
     private int size;
     private Pane target;
     private ConectorList cList;
@@ -15,21 +15,23 @@ public class CircuitList{
         cList = new ConectorList(target);
         this.target = target;
         this.last = null;
+        this.first = null;
         this.size = 0;
     }
     
     public void addLast(String type, double x, double y){
         //Si la lista esta vacia
-        if(this.last == null){
+        if(this.first == null){
             if("AND".equals(type)){
-                this.last = new And(target, x,y, this);
+                this.first = new And(target, x,y, this);
             }else if("POINT".equals(type)){
-                this.last = new Point(target, x,y, this);
+                this.first = new Point(target, x,y, this);
             }else if("STARTPOINT".equals(type)){
-                this.last = new StartPoint(target, x,y, this);
+                this.first = new StartPoint(target, x,y, this);
             }else if("ENDPOINT".equals(type)){
-                this.last = new EndPoint(target, x,y, this);
+                this.first = new EndPoint(target, x,y, this);
             }
+            this.last = this.first;
         //Si la lista contine algo
         }else{
             if("AND".equals(type)){
@@ -55,7 +57,7 @@ public class CircuitList{
             }
         }
         
-        //Crea y agrega la figura al panel
+        //Agrega los puntos al panel si se trata de compuertas
         this.last.constructFigure();
         target.getChildren().add(this.last.getFigure());
         if("NOT".equals(type)){
@@ -76,20 +78,6 @@ public class CircuitList{
         return size;
     }
     
-    public int getCode(int posicion){
-        int D;
-        if(posicion>=this.size){
-            return -1;
-        }else{
-            Gate temp = this.last;
-            for(int i=1; i<=posicion; i++){
-                temp=temp.next;
-            }
-            D=temp.code;
-            return D;
-        }
-    }
-
     public Gate getLast() {
         return last;
     }
@@ -198,6 +186,7 @@ public class CircuitList{
                                 target.getChildren().remove(temp.InTop.getFigure());
                                 target.getChildren().remove(temp.InBot.getFigure());
                             }
+                            this.first=null;
                             this.last=null;
                             temp=null;
                         }else{
@@ -219,6 +208,7 @@ public class CircuitList{
                                 target.getChildren().remove(temp.InTop.getFigure());
                                 target.getChildren().remove(temp.InBot.getFigure());
                             }
+                            this.first=temp.next;
                             temp.next.prev=null;
                             temp.next=null;
                             temp=null;
@@ -278,6 +268,8 @@ public class CircuitList{
             MoveGate.notConecting();
             makeConections();
             setInsOuts();
+            //setFirst();
+            reOrderAll();
         }
     }
     
@@ -356,7 +348,7 @@ public class CircuitList{
                 if(temp.prev == null){
                     if("STARTPOINT".equals(temp.ID)){
                         Label stLabel = new Label(temp.getName());
-                        GridPane.setConstraints(stLabel,i,0);
+                        GridPane.setConstraints(stLabel,i,1);
                         tablelist.addColumnIn(temp);
                         table.getChildren().add(stLabel);
                         i++;
@@ -365,7 +357,7 @@ public class CircuitList{
                 }else{
                     if("STARTPOINT".equals(temp.ID)){
                         Label stLabel = new Label(temp.getName());
-                        GridPane.setConstraints(stLabel,i,0);
+                        GridPane.setConstraints(stLabel,i,1);
                         tablelist.addColumnIn(temp);
                         table.getChildren().add(stLabel);
                         i++;
@@ -382,7 +374,7 @@ public class CircuitList{
                 if(temp.prev == null){
                     if("ENDPOINT".equals(temp.ID)){
                         Label endLabel = new Label(temp.getName());
-                        GridPane.setConstraints(endLabel,i+e,0);
+                        GridPane.setConstraints(endLabel,i+e,1);
                         tablelist.addColumnOut(temp);
                         table.getChildren().add(endLabel);
                         e++;
@@ -391,7 +383,7 @@ public class CircuitList{
                 }else{
                     if("ENDPOINT".equals(temp.ID)){
                         Label endLabel = new Label(temp.getName());
-                        GridPane.setConstraints(endLabel,i+e,0);
+                        GridPane.setConstraints(endLabel,i+e,1);
                         tablelist.addColumnOut(temp);
                         table.getChildren().add(endLabel);
                         e++;
@@ -402,9 +394,11 @@ public class CircuitList{
             if(e!=0){
                 tablelist.addOutRows();
             }
-            testingNow();
-            tablelist.setLastRows(table);
-            testingDone();
+            if(e!=0||i!=0){
+                testingNow();
+                tablelist.setLastRows(table);
+                testingDone();
+            }
         }
     }
     
@@ -444,4 +438,154 @@ public class CircuitList{
             }
         }
     }
+    
+    
+    public void reOrderAll(){
+        int i = 0;
+        if(this.first!=null){
+            i++;
+            Gate temp = this.first;
+            while(true){
+                if(temp.next == null){
+                    temp.code = i;
+                    this.size = i;
+                    break;
+                }else{
+                    temp.code = i;
+                    temp = temp.next;
+                    i++;
+                }
+            }
+        }else{
+            this.size = 0;
+        }
+        
+    }
+    
+    public Gate getPosition(int i){
+        Gate temp = this.first;
+        while(i>1){
+            temp = temp.next;
+            i--;
+        }
+        return temp;
+    }
+    
+    //Genera el string con la informacion de la lista para ser guardada
+    public String getDiagram(){
+        String diagram = "";
+        if(this.first!=null){
+            Gate temp = this.first;
+            String gates = "";
+            String type = "";
+            while(true){
+                if(temp.next==null){
+                    type=temp.ID+"("+temp.xStart+","+temp.yStart+")";
+                    gates=gates+type+";";
+                    break;
+                }else{
+                    type=temp.ID+"("+temp.xStart+","+temp.yStart+")";
+                    gates=gates+type+",";
+                    type="";
+                    temp=temp.next;
+                }
+            }
+            temp=this.first;
+            String conections = "";
+            String link = "";
+            while(true){
+                if(temp.next==null){
+                    if("NOT".equals(temp.ID)){
+                        if(temp.InTop.rFrom!=null){
+                            link=link+temp.code+"-2=";
+                            if(temp.InTop.rFrom.parent==temp.InTop.rFrom){
+                                link=link+temp.InTop.rFrom.code+"-0";
+                            }else{
+                                link=link+temp.InTop.rFrom.parent.code+"-1";
+                            }
+                        }
+                    }else if("POINT".equals(temp.ID)||"ENDPOINT".equals(temp.ID)||
+                            "STARTPOINT".equals(temp.ID)){
+                        if(temp.rFrom!=null){
+                            link=link+temp.code+"-0=";
+                            if(temp.rFrom.parent==temp.rFrom){
+                                link=link+temp.rFrom.code+"-0";
+                            }else{
+                                link=link+temp.rFrom.parent.code+"-1";
+                            }
+                        }
+                    }else{
+                        if(temp.InTop.rFrom!=null){
+                            link=link+temp.code+"-2=";
+                            if(temp.InTop.rFrom.parent==temp.InTop.rFrom){
+                                link=link+temp.InTop.rFrom.code+"-0";
+                            }else{
+                                link=link+temp.InTop.rFrom.parent.code+"-1";
+                            }
+                        }
+                        if(temp.InBot.rFrom!=null){
+                            link=link+temp.code+"-3=";
+                            if(temp.InBot.rFrom.parent==temp.InBot.rFrom){
+                                link=link+temp.InBot.rFrom.code+"-0";
+                            }else{
+                                link=link+temp.InBot.rFrom.parent.code+"-1";
+                            }
+                        }
+                    }
+                    conections=conections+link+"\n";
+                    break;
+                }else{
+                    if("NOT".equals(temp.ID)){
+                        if(temp.InTop.rFrom!=null){
+                            link=link+temp.code+"-2=";
+                            System.out.println("aqui1");
+                            if(temp.InTop.rFrom.parent==temp.InTop.rFrom){
+                                link=link+temp.InTop.rFrom.code+"-0,";
+                            }else{
+                                link=link+temp.InTop.rFrom.parent.code+"-1,";
+                            }
+                            System.out.println("aqui2");
+                        }
+                    }else if("POINT".equals(temp.ID)||"ENDPOINT".equals(temp.ID)||
+                            "STARTPOINT".equals(temp.ID)){
+                        if(temp.rFrom!=null){
+                            link=link+temp.code+"-0=";
+                            if(temp.rFrom.parent==temp.rFrom){
+                                link=link+temp.rFrom.code+"-0,";
+                            }else{
+                                link=link+temp.rFrom.parent.code+"-1,";
+                            }
+                        }
+                    }else{
+                        if(temp.InTop.rFrom!=null){
+                            link=link+temp.code+"-2=";
+                            System.out.println("aqui1");
+                            if(temp.InTop.rFrom.parent==temp.InTop.rFrom){
+                                link=link+temp.InTop.rFrom.code+"-0,";
+                            }else{
+                                link=link+temp.InTop.rFrom.parent.code+"-1,";
+                            }
+                            System.out.println("aqui2");
+                        }
+                        if(temp.InBot.rFrom!=null){
+                            link=link+temp.code+"-3=";
+                            if(temp.InBot.rFrom.parent==temp.InBot.rFrom){
+                                link=link+temp.InBot.rFrom.code+"-0,";
+                            }else{
+                                link=link+temp.InBot.rFrom.parent.code+"-1,";
+                            }
+                        }
+                    }
+                    conections=conections+link;
+                    link="";
+                    temp=temp.next;
+                }
+            }
+            diagram=diagram+gates+conections;
+        }else{
+            diagram=diagram+"\n";
+        }
+        return diagram;
+    }
+    
 }

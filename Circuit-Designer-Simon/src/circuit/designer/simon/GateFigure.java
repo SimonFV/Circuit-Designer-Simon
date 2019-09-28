@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 public class GateFigure {
     
@@ -63,6 +64,10 @@ public class GateFigure {
             Circle point = new Circle(5);
             point.setFill(Color.AQUA);
             g.getChildren().add(point);
+        }else if("CUSTOM".equals(type)){
+            Rectangle rectangle = new Rectangle(50,50);
+            rectangle.setFill(Color.GRAY);
+            g.getChildren().add(rectangle);
         }
         return g;
     }
