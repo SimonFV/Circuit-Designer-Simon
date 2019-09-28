@@ -11,8 +11,17 @@ import javafx.scene.shape.QuadCurve;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+/**
+* Clase fábrica de las figuras de la compuertas.
+* @author: Simon Fallas V.
+*/
 public class GateFigure {
     
+    /**
+    * Método estático que devuelve la figura de la compuerta según el tipo solicitado.
+    * @param type Tipo de compuerta.
+    * @return g Group
+    */
     public static Group construct(String type){
         Group g = new Group();
         g.getChildren().clear();

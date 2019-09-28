@@ -3,18 +3,29 @@ package circuit.designer.simon;
 
 import javafx.scene.layout.GridPane;
 
-
+/**
+* Clase tipo lista enlazada doble que contiene los nodos de las columnas de la tabla
+* de resultados posibles.
+* @author: Simon Fallas V.
+*/
 public class TableList {
     
     private TableBox last, first;
     private int size;
     
+    /**
+    * Método constructor de la lista de columnas.
+    */
     public TableList(){
         this.last = null;
         this.first = null;
         this.size = 0;
     }
     
+    /**
+    * Método que añade una columna de entradas a la lista con el título especificado.
+    * @param Title Compuerta del título de la columna.
+    */
     public void addColumnIn(Gate Title){
         if(this.last==null){
             this.first = new TableBox(Title);
@@ -31,6 +42,10 @@ public class TableList {
         }
     }
     
+    /**
+    * Método que añade una columna de salidas a la lista con el título especificado.
+    * @param Title Compuerta del título de la columna.
+    */
     public void addColumnOut(Gate Title){
         if(this.last==null){
             this.last = new TableBox(Title);
@@ -46,6 +61,10 @@ public class TableList {
         
     }
     
+    /**
+    * Método que calcula todas las posibles combinaciones de entradas según la cantidad de columnas
+    * de entrada de la tabla, y establece los valores de las casillas en base a esto.
+    */
     public void addInRows(){
         int i = 0;
         int div = 0;
@@ -100,6 +119,9 @@ public class TableList {
         }
     }
     
+    /**
+    * Método que añade las casillas vacías a las columnas de la tabla.
+    */
     public void addOutRows(){
         int i = 0;
         TableBox temp = this.last;
@@ -133,6 +155,11 @@ public class TableList {
         }
     }
     
+    /**
+    * Método que modifica los valores de las casillas de salida según los especificados en
+    * las entradas.
+    * @param table Panel de la tabla.
+    */
     public void setLastRows(GridPane table){
         int i = 0;
         int j = 0;

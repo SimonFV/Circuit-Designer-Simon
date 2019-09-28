@@ -5,20 +5,35 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
+/**
+ * Lista doblemente enlazada de nodos tipo compuerta.
+ * @author: Simon Fallas V.
+ */
 public class CircuitList{
     private Gate first, last;
     private int size;
     private Pane target;
     private ConectorList cList;
     
+     /**
+    * Método constructor de la lista de compuertas.
+    * @param target Define el panel donde se montarán los elementos de la lista.
+    */
     public CircuitList(Pane target){
         cList = new ConectorList(target);
         this.target = target;
         this.last = null;
         this.first = null;
         this.size = 0;
+        
     }
     
+    /**
+    * Método que añade una compuerta al final de la lista.
+    * @param type Define el tipo de compuerta que se añadirá.
+    * @param x Define la posición en x de la compuerta que se añadirá.
+    * @param y Define la posición en y de la compuerta que se añadirá.
+    */
     public void addLast(String type, double x, double y){
         //Si la lista esta vacia
         if(this.first == null){
@@ -117,14 +132,26 @@ public class CircuitList{
         this.size += 1;
     }
     
+    /**
+    * Método que retorna el tamaño actual de la lista.
+    * @return size int
+    */
     public int getSize(){
         return size;
     }
     
+    /**
+    * Método que retorna el último elemento de la lista.
+    * @return last Gate
+    */
     public Gate getLast() {
         return last;
     }
     
+    /**
+    * Método que recorre la lista en busca de los elementos que esten conectados a otro.
+    * A partir de estos crea una lista de conexiones.
+    */
     public void makeConections(){
         cList.resetConectors();
         if(this.last!=null){
@@ -210,10 +237,18 @@ public class CircuitList{
         }
     }
     
+    /**
+    * Método que llama a la lista de conexiones y le indica que refresque las posiciones
+    * de sus conexiones de acuerdo al valor de los elementos de esta lista.
+    */
     public void refresh(){
         cList.update();
     }
     
+    /**
+    * Método que recorre toda la lista y elimina los nodos que estan seleccionados.
+    * Luego reordena y refresca las conexiones de la lista restante.
+    */
     public void delete(){
         if(this.last!=null){
             Gate temp = this.last;
@@ -336,6 +371,9 @@ public class CircuitList{
         }
     }
     
+    /**
+    * Método que establece a todos los nodos como no seleccionados.
+    */
     public void unSelectAll(){
         if(this.last!=null){
             Gate temp = this.last;
@@ -351,6 +389,10 @@ public class CircuitList{
         }
     }
     
+    /**
+    * Método que muestra los resultados en los puntos de salida del diagrama en base 
+    * a los valores actuales de las entradas.
+    */
     public void showResults(){
         int i = 0;
         if(this.last!=null){
@@ -373,6 +415,9 @@ public class CircuitList{
         }
     }
     
+    /**
+    * Método que reordena los nombres de las entradas y salidas actuales.
+    */
     public void setInsOuts(){
         int i = 0;
         int j = 0;
@@ -402,6 +447,13 @@ public class CircuitList{
         }
     }
     
+    /**
+    * Método que agrega los títulos de las columnas de la tabla de valores posibles en
+    * base al diagrama. También crea una nueva lista de columnas a partir de los títulos
+    * de la tabla para mostrar todos los posibles valores que puede ofrecer el diagrama
+    * para entradas y salidas.
+    * @param table Panel donde se montarán los datos de la tabla generada.
+    */
     public void generateTable(GridPane table){
         int i = 0;
         int e = 0;
@@ -466,6 +518,11 @@ public class CircuitList{
         }
     }
     
+    /**
+    * Método que establece los valores de testeo de los puntos de entrada como verdaderos
+    * para que se puedan modificar sus resultados y se ignore el valor especificado desde la 
+    * interfaz. Permite generar los posibles resultados de los puntos de salida.
+    */
     public void testingNow(){
         if(this.last!=null){
             Gate temp = this.last;
@@ -484,6 +541,11 @@ public class CircuitList{
             }
         }
     }
+    
+    /**
+    * Método que establece los valores de testeo de los puntos de entrada como falsos, así se
+    * toma como resultado el valor especificado desde la interfaz.
+    */
     public void testingDone(){
         if(this.last!=null){
             Gate temp = this.last;
@@ -503,7 +565,10 @@ public class CircuitList{
         }
     }
     
-    
+    /**
+    * Método que reestablece los códigos de posición de todos los elemtos de la lista
+    * en base a la lista actual.
+    */
     public void reOrderAll(){
         int i = 0;
         if(this.first!=null){
@@ -525,6 +590,11 @@ public class CircuitList{
         }
     }
     
+    /**
+    * Método que retorna el nodo que se encuentre en la posición ingresada como parámetro.
+    * @param i Posición del nodo solicitado.
+    * @return temp Gate
+    */
     public Gate getPosition(int i){
         Gate temp = this.first;
         while(i>1){
@@ -534,7 +604,11 @@ public class CircuitList{
         return temp;
     }
     
-    //Genera el string con la informacion de la lista para ser guardada
+    /**
+    * Método que retorna un string con la información de posiciones y conexiones de
+    * la lista actual.
+    * @return diagram String
+    */
     public String getDiagram(){
         String diagram = "";
         if(this.first!=null){

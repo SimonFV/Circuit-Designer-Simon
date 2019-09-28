@@ -8,7 +8,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-
+/**
+* Clase tipo nodo que almacena los atributos y métodos de las conexiones entre
+* nodos de la lista del diagrama principal.
+* @author: Simon Fallas V.
+*/
 public class Conector{
     protected Pane target;
     protected Conector prev, next;
@@ -17,6 +21,13 @@ public class Conector{
     protected Line line1, line2, line3;
     protected Group g;
     
+    /**
+    * Método construye el nodo conexión a partir de las compuertas recibidas para entrada
+    * y salida.
+    * @param from Compuerta que se quiere conectar a otra.
+    * @param to Compuerta a la que se desea conectar.
+    * @param target Panel donde se muestra la conexión gráficamente.
+    */
     public Conector(Gate from, Gate to, Pane target){
         this.from = from;
         this.to = to;
@@ -30,6 +41,10 @@ public class Conector{
         
     }
     
+    /**
+    * Método construye la figura de la conexión tomando en cuenta las posiciones 
+    * de los nodos a quienes conecta.
+    */
     public void setFigure(){
         this.xStart = from.getxStart();
         this.yStart = from.getyStart();
@@ -66,10 +81,17 @@ public class Conector{
         
     }
     
+    /**
+    * Método retorna la figura de la conexión actual.
+    * @return g Group
+    */
     public Group getFigure(){
         return this.g;
     }
     
+    /**
+    * Método establece un color aleatorio para la figura de la conexión.
+    */
     public void setColors(){
         Random random = new Random();
         int red = random.nextInt(250);

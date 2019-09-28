@@ -12,8 +12,19 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+* Clase que muestra una ventana emergente para guardar el diagrama actual.
+* @author: Simon Fallas V.
+*/
 public class SaveBox {
     
+    /**
+    * Método estático que muestra una ventana emergente para guardar el diagrama actual con
+    * el nombre ingresado por el usuario.
+    * @param circuit Lista a guardar.
+    * @param menu Panel donde se agregará el nuevo botón.
+    * @param diagram Información de las compuertas y conexiones de la lista.
+    */
     public static void saveName(CircuitList circuit, GridPane menu, String diagram){
         Stage saveWindow = new Stage();
         saveWindow.initModality(Modality.APPLICATION_MODAL);

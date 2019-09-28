@@ -9,10 +9,21 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+/**
+* Clase que manipula los eventos relaionados al tratamiento de archivos de texto, el guardado
+* de los diagramas personalizados y la creación de sus respectivos botones.
+* @author: Simon Fallas V.
+*/
 public class GateFileReader{
     private static int row = 11;
     private static String line = "";
-    //Lee el texto y crea los diagramas
+    
+    /**
+    * Método estático que busca la información de las compuertas del diagrama personalizado
+    * especificado por el usuario, y las añade a la lista principal.
+    * @param circuit Lista del diagrama.
+    * @param name Nombre de la lista a buscar.
+    */
     public static void readFile(CircuitList circuit, String name){
         FileReader fileReader = null;
         BufferedReader br = null;
@@ -144,6 +155,11 @@ public class GateFileReader{
         }
     }
     
+    /**
+    * Método estático que escribe en un archivo de texto la información del diagrama
+    * guardado por el usuario.
+    * @param diagram Información de la lista a guardar.
+    */
     public static void writeFile(String diagram){
         FileReader fileReader = null;
         BufferedReader br = null;
@@ -178,6 +194,11 @@ public class GateFileReader{
         }
     }
     
+    /**
+    * Método estático que escribe en un archivo de texto el nombre asignado al botón
+    * para almacenar el diagrama personalizado.
+    * @param name Nombre de la lista a guardar.
+    */
     public static void writeName(String name){
         FileReader fileReader = null;
         BufferedReader br = null;
@@ -212,6 +233,12 @@ public class GateFileReader{
         }
     }
     
+    /**
+    * Método estático que revisa que el nombre del circuito a guardar no se encuentre repetido y 
+    * retorna un verdadero si no encuentra ninguno.
+    * @param name Nombre de la lista a guardar.
+    * @return check boolean
+    */
     public static boolean checkName(String name){
         boolean check = true;
         FileReader fileReader = null;
@@ -243,6 +270,12 @@ public class GateFileReader{
         return check;
     }
     
+    /**
+    * Método estático que busca los diagramas guardados al iniciar el programa para crear los 
+    * botones respectivos.
+    * @param circuit Lista del diagrama principal.
+    * @param menu Panel donde se agregarán los botones.
+    */
     public static void loadNames(CircuitList circuit, GridPane menu){
         FileReader fileReader = null;
         BufferedReader br = null;
@@ -271,6 +304,13 @@ public class GateFileReader{
         }
     }
     
+    /**
+    * Método estático que agrega los botones al panel principal, y los prepara para que se
+    * agreguen a las lista principal cuando sean añadidos por el usuario.
+    * @param circuit Lista del diagrama principal.
+    * @param menu Panel donde se agregarán los botones.
+    * @param name Nombre de la lista a guardar.
+    */
     public static void addCustomButton(CircuitList circuit, GridPane menu, String name){
         VBox pack = new VBox(2);
         Button customButton = new Button(name);
@@ -290,6 +330,10 @@ public class GateFileReader{
         });
     }
     
+    /**
+    * Método estático que elimina el botón especificado por el usuario.
+    * @param name Nombre de la lista a borrar.
+    */
     public static void deleteCustomGate(String name){
         int i = 0;
         FileReader nameReader = null;

@@ -1,20 +1,22 @@
 package circuit.designer.simon;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.SubScene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/**
+ * Clase que crea y muestra los elementos principales de la interfaz.
+ * @author: Simon Fallas V.
+ */
 public class CircuitDesignerMain extends Application{
     
     private Stage window;
@@ -31,14 +33,13 @@ public class CircuitDesignerMain extends Application{
         window = primaryStage;
         primaryStage.setTitle("Circuit Designer by Simon");
         
-        
         //Layouts principales
-        Group root = new Group();
+        BorderPane root = new BorderPane();
         Pane target = new Pane();
         target.setLayoutX(0);
         target.setLayoutY(0);
-        target.setMinWidth(500);
-        target.setMinHeight(500);
+        target.setMinWidth(1000);
+        target.setMinHeight(700);
         circuit = new CircuitList(target);
         
         
@@ -123,14 +124,15 @@ public class CircuitDesignerMain extends Application{
             }
         });
         
-        root.getChildren().addAll(target, menu);
+        root.setLeft(menu);
+        target.getChildren().add(root);
         
         target.setOnMouseClicked(e -> {
             if(e.getButton()==MouseButton.PRIMARY){
                 MoveGate.PaneControl(circuit, target, mainScene, e);
                 }});
         
-        mainScene = new Scene(root, 800, 600);
+        mainScene = new Scene(target, 1000, 700);
         //Desactiva los botones para añadir compuertas
         //deselecciona todo y cierra las conexiones pendientes
         mainScene.setOnMouseClicked(e -> {
@@ -171,12 +173,16 @@ public class CircuitDesignerMain extends Application{
                 circuit.delete();
             }
         });
-        
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
+        window.setScene(mainScene);
+        window.show();
     }
     
-    public void addToTable(Group root){
+    /**
+    * Método que genera la tabla de posibles resultados a partir de los puntos de entrada y salida presentes en el panel.
+    * No es posible generar una nueva tabla hasta que no se cierre la actual con el botón creado.
+    * @param root Define el panel donde se montará la tabla.
+    */
+    public void addToTable(BorderPane root){
         GridPane table = new GridPane();
         Button closeTable = new Button("Close");
         GridPane.setConstraints(closeTable,0,0);
@@ -184,9 +190,8 @@ public class CircuitDesignerMain extends Application{
         circuit.generateTable(table);
         
         table.getChildren().addAll(closeTable);
-        table.setLayoutX(400);
-        table.setLayoutY(400);
-        root.getChildren().add(table);
+        table.setAlignment(Pos.BOTTOM_LEFT);
+        root.setBottom(table);
         
         closeTable.setOnMouseClicked(e->{
             showingTable = false;

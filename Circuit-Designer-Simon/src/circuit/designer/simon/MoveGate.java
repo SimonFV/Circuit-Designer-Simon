@@ -13,6 +13,10 @@ import static javafx.scene.input.MouseEvent.MOUSE_PRESSED;
 import static javafx.scene.input.MouseEvent.MOUSE_RELEASED;
 import javafx.scene.layout.Pane;
 
+/**
+* Clase que gestiona los eventos del mouse del usuario.
+* @author: Simon Fallas V.
+*/
 public class MoveGate{
     private static double newX, newY, xFirst, yFirst;
     private static String state = "normal"; //Permite relizar solo ciertas acciones a la vez
@@ -20,7 +24,12 @@ public class MoveGate{
     private static boolean conecting;
     private static Gate tempPoint;
     
-    
+    /**
+    * Método estático que maneja los eventos de arrastre y selección de las compuertas.
+    * @param event Evento del mouse
+    * @param source Compuerta sobre la que ocurre el evento.
+    * @param circuit Lista principal del diagrama.
+    */
     public static void MouseControl(MouseEvent event, Gate source, CircuitList circuit){
         if("normal".equals(state)){
             if(event.getButton()==MouseButton.PRIMARY){
@@ -45,7 +54,7 @@ public class MoveGate{
                     newX = event.getSceneX();
                     newY = event.getSceneY();
                     //Mantenerse dentro del panel
-                    if(newX < 500 || newX > 100 || newY > 0 || newY < 500) {
+                    if(newX < 980 || newX > 120 || newY > 0 || newY < 680) {
                         source.moveFigure(adjust(newX), adjust(newY));
                         circuit.refresh();
                     }
@@ -60,6 +69,12 @@ public class MoveGate{
         }
     }
     
+    /**
+    * Método estático que maneja los eventos de conexión entre los puntos.
+    * @param event Evento del mouse
+    * @param source Compuerta sobre la que ocurre el evento.
+    * @param circuit Lista principal del diagrama.
+    */
     public static void PointControl(MouseEvent event, Gate source, CircuitList circuit){
         if(state.equals("normal")){
             if(conecting){
@@ -94,6 +109,13 @@ public class MoveGate{
         }
     }
     
+    /**
+    * Método estático que maneja los eventos de creación de compuertas en el panel de ensamble.
+    * @param circuit Lista principal del diagrama.
+    * @param target Panel donde ocurre el evento.
+    * @param mainScene Escena principal del programa.
+    * @param e Evento del mouse.
+    */
     public static void PaneControl(CircuitList circuit, Pane target, Scene mainScene, MouseEvent e){
         newX = e.getSceneX();
         newY = e.getSceneY();
@@ -120,6 +142,13 @@ public class MoveGate{
         }
     }
     
+    /**
+    * Método estático que maneja los eventos de modificación del tipo de compuerta que
+    * se debe añadir según el botón seleccionado por el usuario.
+    * @param b Botón donde ocurre el evento.
+    * @param e Evento del mouse.
+    * @param s Tipo de la compuerta a crear.
+    */
     public static void ButtonControl(ToggleButton b, MouseEvent e, String s){
         if(Bstate){
             b.setSelected(false);
@@ -132,6 +161,9 @@ public class MoveGate{
         }
     }
     
+    /**
+    * Método estático que establece el estado de conexión entre puntos como falso.
+    */
     public static void notConecting(){
         if(tempPoint!=null){
             conecting=false;
@@ -139,7 +171,12 @@ public class MoveGate{
         }  
     }
     
-    //Movimiento ajustado
+    /**
+    * Método estático que ajusta el valor de posición de las compuertas para simular
+    * un movimiento cuadriculado.
+    * @param x Valor a ajustar
+    * @return x double
+    */
     public static double adjust(double x){
         double rX = x%10;
         if(rX<5){

@@ -5,7 +5,6 @@ import javafx.scene.layout.Pane;
 
 class And extends Gate{
     
-    //Constructor
     public And(Pane target, double x, double y, CircuitList circuit) {
         super(target, x, y, circuit);
         this.state = "Active";
